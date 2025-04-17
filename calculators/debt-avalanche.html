@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Debt Avalanche Calculator | ClearCalc</title>
   <link rel="stylesheet" href="../css/style.css" />
+  <script defer src="../js/calculator.js"></script>
 </head>
 <body>
   <header>
@@ -13,17 +14,46 @@
     <nav><a href="../index.html">← Home</a></nav>
   </header>
 
+  <!-- optional hero illustration -->
+  <div class="hero">
+    <img src="../assets/hero.svg" alt="Person using calculator" />
+  </div>
+
   <main>
     <section class="calculator">
-      <p><em>Coming soon: enter your debts to see the avalanche payoff strategy.</em></p>
+      <form id="avalancheForm">
+        <h2>Enter Your Debts (1–5)</h2>
+
+        <!-- Repeat this block 5× -->
+        <div class="debt-entry">
+          <label>Debt 1 Balance ($):</label>
+          <input type="number" name="balance" placeholder="e.g. 2000" required />
+
+          <label>APR (%):</label>
+          <input type="number" step="0.01" name="apr" placeholder="e.g. 18.99" required />
+
+          <label>Min Payment ($):</label>
+          <input type="number" name="minPayment" placeholder="e.g. 50" required />
+        </div>
+
+        <!-- You’ll end up with five .debt-entry elements total -->
+        <!-- ... -->
+
+        <button type="submit">Calculate Avalanche</button>
+      </form>
+
+      <div id="avalancheResults" class="results">
+        <!-- JS will inject your payoff summary here -->
+      </div>
     </section>
 
-    <section class="description">
+    <section class="about">
       <h2>How It Works</h2>
       <p>
-        The debt avalanche method prioritizes debts by interest rate.
-        You pay minimums on all but the highest-rate debt, throwing extra money
-        at it until it’s gone, then move on to the next highest rate.
+        The debt‑avalanche method prioritizes debts by interest rate.
+        You pay minimums on all but the highest‑rate balance,
+        throwing every extra dollar at that one until it’s gone,
+        then move on to the next highest rate.
       </p>
     </section>
   </main>
