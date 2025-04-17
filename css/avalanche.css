@@ -65,4 +65,15 @@
       flex-direction: column;
     }
   }
+  /* force APR field to match height of the other inputs */
+#avalancheContainer .debt-entry input[name="apr"] {
+    /* same padding as the other inputs: 0.75rem top/bottom, 1rem left/right */
+    padding: 0.75rem 1rem !important;
+    /* keep the narrow width */
+    max-width: 80px;
+    /* same line‑height so text sits correctly */
+    line-height: 1.4;
+    /* override any previous height tweaks */
+    height: auto !important;
+  }
   
