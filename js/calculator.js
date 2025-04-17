@@ -1,7 +1,5 @@
-// js/calculator.js
-
 document.addEventListener('DOMContentLoaded', function() {
-  // --- Credit Card Payoff Calculator ---
+  // --- Credit Card Payoff ---
   const balanceInput = document.getElementById('balance');
   const aprInput     = document.getElementById('apr');
   const paymentInput = document.getElementById('payment');
@@ -43,19 +41,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (months >= maxMonths || remaining > 0) {
       resultsDiv.innerHTML = `
-        <p class="error">
-          With the given payment amount, your balance will not be paid off.
-          Try increasing your monthly payment.
-        </p>`;
+        <p class="error">Balance won’t be paid off. Try a higher payment.</p>`;
     } else {
       resultsDiv.innerHTML = `
         <p>It will take <strong>${months}</strong> month${months === 1 ? '' : 's'} to pay off your balance.</p>
-        <p>Total interest paid: <strong>$${totalInterest.toFixed(2)}</strong></p>
-      `;
+        <p>Total interest paid: <strong>$${totalInterest.toFixed(2)}</strong></p>`;
     }
   });
 
-  // --- Debt Snowball Calculator ---
+  // --- Debt Snowball ---
   const snowballForm   = document.getElementById('snowballForm');
   const snowballOutput = document.getElementById('snowballResults');
 
@@ -63,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     e.preventDefault();
     snowballOutput.innerHTML = '';
 
-    // Gather debts and filter out blank entries
+    // Gather & filter
     const entries = Array.from(snowballForm.querySelectorAll('.debt-entry'));
     const debts = entries.map((entry, idx) => {
       const bal  = parseFloat(entry.querySelector('input[name="balance"]').value);
@@ -78,46 +72,33 @@ document.addEventListener('DOMContentLoaded', function() {
         interestPaid: 0,
         payoffMonth: null
       };
-    })
-    .filter(d => !isNaN(d.startingBalance) && d.startingBalance > 0
-              && !isNaN(d.minPayment) && d.minPayment > 0);
+    }).filter(d => !isNaN(d.startingBalance) && d.startingBalance > 0
+               && !isNaN(d.minPayment) && d.minPayment > 0);
 
     if (debts.length === 0) {
-      snowballOutput.innerHTML = '<p class="error">Enter at least one debt with a balance and payment.</p>';
+      snowballOutput.innerHTML = '<p class="error">Enter at least one debt with balance & payment.</p>';
       return;
     }
 
-    // Determine snowball order
-    const order = debts.slice().sort((a, b) => a.startingBalance - b.startingBalance);
-    let month = 0;
-    const maxMonths = 600;
-
-    // Run simulation
+    // Order and simulate
+    const order = debts.slice().sort((a,b) => a.startingBalance - b.startingBalance);
+    let month = 0, maxMonths = 600;
     while (debts.some(d => d.balance > 0.01) && month < maxMonths) {
       month++;
-      // 1) Accrue interest
       debts.forEach(d => {
         if (d.balance > 0) {
-          const interest = d.balance * d.monthlyRate;
-          d.balance     += interest;
-          d.interestPaid += interest;
+          const i = d.balance * d.monthlyRate;
+          d.balance += i;
+          d.interestPaid += i;
         }
       });
-
-      // 2) Freed payment
-      const freedPayment = debts
-        .filter(d => d.balance <= 0.01)
-        .reduce((sum, d) => sum + d.minPayment, 0);
-
-      // 3) Current target
+      const freed = debts.filter(d => d.balance <= 0.01)
+                         .reduce((sum,d)=>sum+d.minPayment,0);
       const target = order.find(d => d.balance > 0.01);
-
-      // 4) Apply payments
       debts.forEach(d => {
         if (d.balance > 0) {
-          let payment = d.minPayment;
-          if (d === target) payment += freedPayment;
-          d.balance -= payment;
+          let pay = d.minPayment + (d===target?freed:0);
+          d.balance -= pay;
           if (d.balance <= 0) {
             d.balance = 0;
             if (!d.payoffMonth) d.payoffMonth = month;
@@ -128,21 +109,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Render results
     if (month >= maxMonths) {
-      snowballOutput.innerHTML = '<p class="error">Balance not paid off in a reasonable time. Try higher payments.</p>';
+      snowballOutput.innerHTML = '<p class="error">Not paid off in reasonable time.</p>';
     } else {
-      const totalInterest = debts
-        .reduce((sum, d) => sum + d.interestPaid, 0)
-        .toFixed(2);
-
+      const totalI = debts.reduce((sum,d)=>sum+d.interestPaid,0).toFixed(2);
       let html = `<p>All debts paid off in <strong>${month}</strong> months.</p>`;
-      html += `<p>Total interest paid: <strong>$${totalInterest}</strong></p>`;
+      html += `<p>Total interest paid: <strong>$${totalI}</strong></p>`;
       html += '<h3>Payoff Schedule:</h3><ul>';
       debts.forEach(d => {
-        html += `<li>Debt ${d.id}: paid in ${d.payoffMonth} mo; interest: $${d.interestPaid.toFixed(2)}</li>`;
+        html += `<li>Debt ${d.id}: ${d.payoffMonth} mo; interest $${d.interestPaid.toFixed(2)}</li>`;
       });
       html += '</ul>';
       snowballOutput.innerHTML = html;
     }
   });
-
-});  // end DOMContentLoaded
+});
