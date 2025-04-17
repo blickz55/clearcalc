@@ -98,4 +98,71 @@
       grid-template-columns: 1fr;
     }
   }
+  /* ──────────────────────────────────────────────────────────────── */
+/* Debt‑Avalanche Overrides                                      */
+/* ──────────────────────────────────────────────────────────────── */
+#avalancheForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+  }
+  
+  #avalancheContainer {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--field-spacing);
+    margin-bottom: var(--spacing);
+  }
+  
+  #avalancheContainer .debt-entry {
+    background: var(--surface-alt);
+    padding: var(--field-spacing);
+    border-radius: var(--border-radius);
+  }
+  
+  #avalancheContainer .debt-entry:nth-child(even) {
+    background: var(--surface);
+  }
+  
+  #avalancheContainer .debt-entry label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  #avalancheContainer .debt-entry input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    background: #f9f9f9;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  /* slim down just the APR input */
+  #avalancheContainer .debt-entry input[name="apr"] {
+    padding: 0.5rem 0.75rem;
+    height: auto;
+    line-height: 1.4;
+    max-width: 80px;
+  }
+  
+  #avalancheForm .actions {
+    display: flex;
+    gap: var(--field-spacing);
+  }
+  
+  #avalancheForm .actions button {
+    flex: 1;
+  }
+  
+  /* mobile: stack rows */
+  @media (max-width: 600px) {
+    #avalancheContainer {
+      grid-template-columns: 1fr;
+    }
+    #avalancheForm .actions {
+      flex-direction: column;
+    }
+  }
   
