@@ -230,3 +230,44 @@ button:hover {
     align-items: stretch;
   }
 }
+/* ───────────────────────────────── Credit‑Card‑Payoff Page Overrides ── */
+  
+/* Hero columns are already in global CSS */
+
+/* Tidy up the calculator form into two columns */
+#payoffForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing);
+  align-items: end;
+  margin-top: var(--spacing);
+}
+
+#payoffForm .field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+#payoffForm .actions {
+  grid-column: 1 / -1;
+  margin-top: var(--spacing);
+}
+
+/* Stretch results box full width */
+#payoffForm + .results {
+  grid-column: 1 / -1;
+}
+
+/* Ensure the SVG in the hero never overflows */
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile: stack form fields */
+@media (max-width: 600px) {
+  #payoffForm {
+    grid-template-columns: 1fr;
+  }
+}

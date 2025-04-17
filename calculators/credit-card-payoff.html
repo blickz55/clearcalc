@@ -3,48 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Credit Card Payoff Calculator | ClearCalc</title>
+  <title>ClearCalc — Credit Card Payoff Calculator</title>
   <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
   <header>
-    <h1>Credit Card Payoff Calculator</h1>
-    <p>Estimate how long it will take to pay off your balance and total interest paid.</p>
-    <nav><a href="../index.html">← Home</a></nav>
+    <h1>ClearCalc</h1>
+    <p>Free, easy‑to‑use calculators to help you crush debt and save on interest.</p>
+    <nav>
+      <a class="btn" href="credit-card-payoff.html">Credit Card Payoff</a>
+      <a class="btn" href="debt-snowball.html">Debt Snowball</a>
+      <a class="btn" href="debt-avalanche.html">Debt Avalanche</a>
+    </nav>
   </header>
 
   <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Credit Card Payoff Calculator</h2>
+        <p>Estimate how long it will take to pay off your balance and total interest paid.</p>
+        <a href="../index.html" class="btn" style="margin-top:1rem;">← Home</a>
+      </div>
+      <div class="hero-image">
+        <img src="../assets/credit-card-hero.svg" alt="Person using a credit card calculator illustration" />
+      </div>
+    </section>
+
+    <!-- Calculator -->
     <section class="calculator">
-      <form id="payoffForm" class="payoff-form">
+      <h2>Calculate Your Payoff</h2>
+      <form id="payoffForm">
         <div class="field">
           <label for="balance">Current Balance ($):</label>
-          <input type="number" id="balance" placeholder="e.g. 5000">
+          <input type="number" id="balance" name="balance" placeholder="e.g. 5000" required />
         </div>
         <div class="field">
           <label for="apr">Annual Interest Rate (%):</label>
-          <input type="number" step="0.01" id="apr" placeholder="e.g. 18.99">
+          <input type="number" step="0.01" id="apr" name="apr" placeholder="e.g. 18.99" required />
         </div>
         <div class="field">
           <label for="payment">Monthly Payment ($):</label>
-          <input type="number" id="payment" placeholder="e.g. 200">
+          <input type="number" id="payment" name="payment" placeholder="e.g. 200" required />
         </div>
-        <button type="button" id="calculateBtn">Calculate Payoff</button>
-      </form>
-      <div id="results" class="results"></div>
-    </section>
 
-    <section class="description">
-      <h2>How It Works</h2>
-      <p>
-        Enter your current credit card balance, annual interest rate, and the amount you plan to pay each month.
-        Our calculator uses a standard amortization formula to estimate the number of months until your balance
-        is paid off and the total interest you’ll pay over that period.
-      </p>
+        <div class="actions">
+          <button type="submit" class="btn">Calculate Payoff</button>
+        </div>
+      </form>
+
+      <div class="results" id="payoffResults"></div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 ClearCalc.io — <a href="../index.html">Home</a></p>
+    <p>&copy; 2025 ClearCalc.io — <a href="../index.html">Home</a></p>
   </footer>
 
   <script src="../js/calculator.js"></script>
