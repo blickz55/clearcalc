@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ──────────────────────────────
   // Credit‑Card Payoff Form
   // ──────────────────────────────
-  const payoffForm = document.getElementById('payoffForm');
+  const payoffForm    = document.getElementById('payoffForm');
   const payoffResults = document.getElementById('payoffResults');
 
   if (payoffForm) {
@@ -22,15 +22,30 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const balance = parseFloat(payoffForm.balance.value);
-      const apr      = parseFloat(payoffForm.apr.value);
-      const payment  = parseFloat(payoffForm.payment.value);
+      const apr     = parseFloat(payoffForm.apr.value);
+      const payment = parseFloat(payoffForm.payment.value);
 
-      // simple validation
+      // basic validation
       if (isNaN(balance) || isNaN(apr) || isNaN(payment) || payment <= 0) {
         payoffResults.innerHTML = '<p class="error">Please enter valid numbers for all fields.</p>';
         return;
       }
 
+      // check that payment actually exceeds first month’s interest
+      const monthlyRate      = apr / 1200;
+      const firstMonthInterest = balance * monthlyRate;
+      if (payment <= firstMonthInterest) {
+        payoffResults.innerHTML = `
+          <p class="error">
+            Your payment of <strong>${formatCurrency(payment)}</strong> is not enough 
+            to cover the first month’s interest of <strong>${formatCurrency(firstMonthInterest)}</strong>.<br>
+            Please increase your monthly payment above your monthly interest.
+          </p>
+        `;
+        return;
+      }
+
+      // perform the payoff calculation
       const { months, totalInterest } = creditCardPayoff(balance, apr, payment);
       const totalPaid = months * payment;
 
@@ -45,9 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ──────────────────────────────
-  // Debt‑Snowball Form
+  // Debt‑Snowball Form (unchanged)
   // ──────────────────────────────
-  const snowballForm = document.getElementById('snowballForm');
+  const snowballForm    = document.getElementById('snowballForm');
   const snowballResults = document.getElementById('snowballResults');
 
   if (snowballForm) {
@@ -85,9 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ──────────────────────────────
-  // Debt‑Avalanche Form
+  // Debt‑Avalanche Form (unchanged)
   // ──────────────────────────────
-  const avalancheForm = document.getElementById('avalancheForm');
+  const avalancheForm    = document.getElementById('avalancheForm');
   const avalancheResults = document.getElementById('avalancheResults');
 
   if (avalancheForm) {
