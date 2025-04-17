@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Debt Avalanche Calculator | ClearCalc</title>
   <link rel="stylesheet" href="../css/style.css" />
 </head>
@@ -18,7 +17,6 @@
       <h2>Enter Your Debts</h2>
       <form id="avalancheForm">
         <div id="debtContainer">
-          <!-- default 3 entries -->
           <div class="debt-entry">
             <label>Debt 1 Balance ($):</label>
             <input type="number" name="balance" placeholder="e.g. 2000" required>
@@ -46,7 +44,7 @@
         </div>
 
         <div class="actions">
-          <button type="button" id="addDebtBtn">+ Add another debt</button>
+          <button type="button" id="addAvalancheDebt">+ Add another debt</button>
           <button type="submit">Calculate Avalanche</button>
         </div>
       </form>
@@ -69,13 +67,12 @@
 
   <script src="../js/calculator.js"></script>
   <script>
-    // dynamic "add another debt"
-    document.getElementById('addDebtBtn').addEventListener('click', () => {
+    document.getElementById('addAvalancheDebt').addEventListener('click', () => {
       const container = document.getElementById('debtContainer');
-      const count = container.children.length + 1;
-      const entry = document.createElement('div');
-      entry.className = 'debt-entry';
-      entry.innerHTML = `
+      const count     = container.children.length + 1;
+      const div       = document.createElement('div');
+      div.className   = 'debt-entry';
+      div.innerHTML   = `
         <label>Debt ${count} Balance ($):</label>
         <input type="number" name="balance" placeholder="e.g. 800">
         <label>APR (%):</label>
@@ -83,7 +80,7 @@
         <label>Min Payment ($):</label>
         <input type="number" name="minPayment" placeholder="e.g. 25">
       `;
-      container.appendChild(entry);
+      container.appendChild(div);
     });
   </script>
 </body>
