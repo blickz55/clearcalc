@@ -1,54 +1,52 @@
-/* Tidy the avalanche form like the others */
-#avalancheForm #avalancheContainer {
+/* ──────────────────────────────────────────────────────────────── */
+/* Debt‑Avalanche Page Overrides                                  */
+/* ──────────────────────────────────────────────────────────────── */
+#avalancheForm {
     display: flex;
     flex-direction: column;
+    gap: var(--spacing);
+  }
+  
+  #avalancheContainer {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--field-spacing);
     margin-bottom: var(--spacing);
   }
-  #avalancheContainer .debt-entry {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--field-spacing);
-    padding: var(--field-spacing);
-    border-radius: var(--border-radius);
-    background: var(--surface-alt);
-  }
-  #avalancheContainer .debt-entry:nth-child(even) {
-    background: var(--surface);
+  
+  #avalancheForm .debt-entry {
+    display: contents; /* so each entry's labels/inputs flow into the grid */
   }
   
-  /* Buttons */
-  #avalancheForm .actions {
+  #avalancheForm .debt-entry label {
     display: flex;
-    gap: var(--field-spacing);
-    margin-top: var(--spacing);
-  }
-  #avalancheForm .actions button {
-    flex: 1;
-  }
-  
-  /* Results styling */
-  #avalancheResults p {
-    margin-bottom: var(--field-spacing);
-  }
-  #avalancheResults ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-  }
-  #avalancheResults ul li {
-    margin-left: 1rem;
-    position: relative;
-  }
-  #avalancheResults ul li::before {
-    content: "–";
-    position: absolute;
-    left: -1rem;
-    color: var(--primary-color);
+    flex-direction: column;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin-bottom: 0;
   }
   
-  /* Chart */
-  #avalancheChart.active {
-    display: block !important;
+  #avalancheForm .debt-entry input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    background: #f9f9f9;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    height: auto;
+    line-height: 1.4;
+  }
+  
+  /* slim down only the APR field */
+  #avalancheForm .debt-entry input[name="apr"] {
+    padding: 0.5rem 0.75rem;
+    max-width: 80px;
+  }
+  
+  /* stack to one column on mobile */
+  @media (max-width: 600px) {
+    #avalancheContainer {
+      grid-template-columns: 1fr;
+    }
   }
   
