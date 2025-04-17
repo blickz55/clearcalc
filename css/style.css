@@ -383,3 +383,87 @@ button:hover {
     flex-direction: column;
   }
 }
+/* ──────────────────────────────────────────────────────────────── */
+/* Debt‑Snowball Page Overrides                                   */
+/* ──────────────────────────────────────────────────────────────── */
+
+/* Tidy form into 1 row per debt */
+#debtContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-spacing);
+  margin-bottom: var(--spacing);
+}
+.debt-entry {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--field-spacing);
+  background: var(--surface-alt);
+  padding: var(--field-spacing);
+  border-radius: var(--border-radius);
+}
+.debt-entry:nth-child(even) {
+  background: var(--surface);
+}
+.debt-entry label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+.debt-entry input {
+  max-width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+}
+
+/* Actions */
+#snowballForm .actions {
+  display: flex;
+  gap: var(--field-spacing);
+}
+#snowballForm .actions button {
+  flex: 1;
+}
+
+/* Results box & list reset */
+#snowballResults {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  margin-top: var(--spacing);
+}
+#snowballResults p {
+  margin-bottom: var(--field-spacing);
+}
+#snowballResults ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+#snowballResults ul li {
+  margin-left: 1rem;
+  position: relative;
+}
+#snowballResults ul li::before {
+  content: "–";
+  position: absolute;
+  left: -1rem;
+  color: var(--primary-color);
+}
+
+/* Chart canvas sizing */
+#snowballChart {
+  display: none;          /* hidden until we have data */
+  width: 100% !important;
+  max-width: 600px;
+  height: 300px !important;
+  max-height: 300px;
+  margin: 2rem auto 0;
+}
+#snowballChart.active {
+  display: block;
+}

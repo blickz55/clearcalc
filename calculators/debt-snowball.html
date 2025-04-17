@@ -9,7 +9,7 @@
 <body>
   <header>
     <h1>ClearCalc</h1>
-    <p>Free, easy‑to‑use calculators to help you crush debt and save on interest.</p>
+    <p>Free, easy-to-use calculators to help you crush debt and save on interest.</p>
     <nav>
       <a class="btn" href="credit-card-payoff.html">Credit Card Payoff</a>
       <a class="btn" href="debt-snowball.html">Debt Snowball</a>
@@ -26,32 +26,30 @@
         <a href="../index.html" class="btn" style="margin-top:1rem;">← Home</a>
       </div>
       <div class="hero-image">
-        <img src="../assets/snowball-hero.svg"
-             alt="Illustration of a snowball rolling" />
+        <img src="../assets/snowball-hero.svg" alt="Illustration of a snowball rolling" />
       </div>
     </section>
 
     <!-- Calculator -->
     <section class="calculator">
       <h2>Enter Your Debts</h2>
-
       <form id="snowballForm">
         <div id="debtContainer">
-          <!-- we start with 3 entries -->
+          <!-- three initial debts -->
           <div class="debt-entry">
-            <label>Debt 1 Balance ($): <input name="balance" type="number" placeholder="e.g. 2000" required></label>
-            <label>APR (%):             <input name="apr"     type="number" step="0.01" placeholder="e.g. 18.99" required></label>
-            <label>Min Payment ($):     <input name="minPayment" type="number" placeholder="e.g. 50" required></label>
+            <label>Debt 1 Balance ($):<input name="balance" type="number" placeholder="e.g. 2000" /></label>
+            <label>APR (%):<input name="apr" type="number" step="0.01" placeholder="e.g. 18.99" /></label>
+            <label>Min Payment ($):<input name="minPayment" type="number" placeholder="e.g. 50" /></label>
           </div>
           <div class="debt-entry">
-            <label>Debt 2 Balance ($): <input name="balance" type="number" placeholder="e.g. 1500"></label>
-            <label>APR (%):             <input name="apr"     type="number" step="0.01" placeholder="e.g. 16.50"></label>
-            <label>Min Payment ($):     <input name="minPayment" type="number" placeholder="e.g. 40"></label>
+            <label>Debt 2 Balance ($):<input name="balance" type="number" placeholder="e.g. 1500" /></label>
+            <label>APR (%):<input name="apr" type="number" step="0.01" placeholder="e.g. 16.50" /></label>
+            <label>Min Payment ($):<input name="minPayment" type="number" placeholder="e.g. 40" /></label>
           </div>
           <div class="debt-entry">
-            <label>Debt 3 Balance ($): <input name="balance" type="number" placeholder="e.g. 1200"></label>
-            <label>APR (%):             <input name="apr"     type="number" step="0.01" placeholder="e.g. 13.20"></label>
-            <label>Min Payment ($):     <input name="minPayment" type="number" placeholder="e.g. 30"></label>
+            <label>Debt 3 Balance ($):<input name="balance" type="number" placeholder="e.g. 1200" /></label>
+            <label>APR (%):<input name="apr" type="number" step="0.01" placeholder="e.g. 13.20" /></label>
+            <label>Min Payment ($):<input name="minPayment" type="number" placeholder="e.g. 30" /></label>
           </div>
         </div>
 
@@ -62,6 +60,9 @@
       </form>
 
       <div id="snowballResults" class="results"></div>
+
+      <canvas id="snowballChart" width="600" height="300"
+              style="width:100%;max-width:600px;margin:2rem auto 0;display:block;"></canvas>
     </section>
   </main>
 
@@ -69,6 +70,7 @@
     <p>&copy; 2025 ClearCalc.io — <a href="../index.html">Home</a></p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="module" src="../js/calculator.js"></script>
 </body>
 </html>
