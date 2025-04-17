@@ -356,3 +356,17 @@ button:hover {
   margin: 2rem auto 0;
   display: block;
 }
+/* ──────────────────────────────────────────────────────────────────── */
+/* hide all empty chart canvases until we flip them “active” in JS    */
+/* ──────────────────────────────────────────────────────────────────── */
+#payoffChart,
+#snowballChart,
+#avalancheChart {
+  display: none !important;   /* overrides any inline display:block */
+}
+
+#payoffChart.active,
+#snowballChart.active,
+#avalancheChart.active {
+  display: block !important;
+}
