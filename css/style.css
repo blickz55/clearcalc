@@ -356,3 +356,30 @@ button:hover {
   margin: 2rem auto 0;
   display: block;
 }
+/* Debt‑Snowball Page Overrides */
+#snowballForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+}
+.debt-entry {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing);
+  padding: var(--field-spacing);
+  border-radius: 4px;
+}
+.debt-entry:nth-child(odd)  { background: var(--surface-alt); }
+.debt-entry:nth-child(even) { background: var(--surface); }
+#snowballForm .actions {
+  display: flex;
+  gap: var(--field-spacing);
+}
+@media (max-width: 600px) {
+  .debt-entry {
+    grid-template-columns: 1fr; /* stack on mobile */
+  }
+  #snowballForm .actions {
+    flex-direction: column;
+  }
+}
