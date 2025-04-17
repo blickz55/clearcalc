@@ -1,66 +1,74 @@
-/* ──────────────────────────────────────────────────────────────── */
-/* Debt‑Avalanche Page Overrides                                  */
-/* ──────────────────────────────────────────────────────────────── */
+/* css/avalanche.css */
+/* Must be included *after* style.css */
+
+/* 1) Form wrapper */
 #avalancheForm {
     display: flex;
     flex-direction: column;
     gap: var(--spacing);
   }
   
-  /* three‑column grid, alternating row backgrounds */
+  /* 2) Grid of debts */
   #avalancheContainer {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--field-spacing);
     margin-bottom: var(--spacing);
   }
   
+  /* 3) Each debt row */
   #avalancheContainer .debt-entry {
+    display: grid;
+    /* 3 columns: auto (balance), min-content (apr), auto (payment) */
+    grid-template-columns: 1fr minmax(0, max-content) 1fr;
+    gap: var(--field-spacing);
     background: var(--surface-alt);
     padding: var(--field-spacing);
     border-radius: var(--border-radius);
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--field-spacing);
   }
   
+  /* 4) Alternate row shading */
   #avalancheContainer .debt-entry:nth-child(even) {
     background: var(--surface);
   }
   
+  /* 5) Label styling */
   #avalancheContainer .debt-entry label {
     display: block;
+    font-size: 0.9rem;
     font-weight: 500;
     margin-bottom: 0.25rem;
+    color: var(--text-color);
   }
   
+  /* 6) Inputs (default full width) */
   #avalancheContainer .debt-entry input {
     width: 100%;
     padding: 0.75rem 1rem;
     border: 1px solid var(--border);
     border-radius: var(--border-radius);
     background: #f9f9f9;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   
-  /* slim APR field */
+  /* 7) Slim down the APR field */
   #avalancheContainer .debt-entry input[name="apr"] {
+    max-width: 80px;
     padding: 0.5rem 0.75rem;
     line-height: 1.4;
-    max-width: 80px;
   }
   
-  /* action buttons row */
+  /* 8) Action buttons */
   #avalancheForm .actions {
     display: flex;
     gap: var(--field-spacing);
+    margin-top: var(--spacing);
   }
-  
   #avalancheForm .actions button {
     flex: 1;
   }
   
-  /* mobile: stack each debt row and buttons */
+  /* 9) Mobile stacking */
   @media (max-width: 600px) {
     #avalancheContainer {
       grid-template-columns: 1fr;
