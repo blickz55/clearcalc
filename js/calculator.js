@@ -209,10 +209,10 @@ if (bad) {
           Total amount paid: <strong>${formatCurrency(totalPaid)}</strong>
         </p>
         <ul>
-          ${details.map(d =>
-            `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`
-          ).join('')}
-        </ul>`;
+  ${details.map(d =>
+    `<li>Debt ${d.id} paid off in ${d.payoffMonth} mo, cumulative interest so far: ${formatCurrency(d.interestPaid)}</li>`
+  ).join('')}
+</ul>`;
 
       // build and render chart
       const sim = entries.map(d => ({ ...d }));
@@ -355,10 +355,10 @@ if (avalancheForm) {
         Total amount paid: <strong>${formatCurrency(totalPaid)}</strong>
       </p>
       <ul>
-        ${details.map(d=>
-          `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`
-        ).join('')}
-      </ul>`;
+  ${details.map(d =>
+    `<li>Debt ${d.id} paid off in ${d.payoffMonth} mo, cumulative interest so far: ${formatCurrency(d.interestPaid)}</li>`
+  ).join('')}
+</ul>`;
 
     // build schedule
     const sim = entries.slice().sort((a,b)=>b.monthlyRate - a.monthlyRate);
