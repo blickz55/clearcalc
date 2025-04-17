@@ -1,5 +1,9 @@
 // js/calculator.js
-import { creditCardPayoff } from './lib/calculators.js';
+import {
+  creditCardPayoff,
+  debtSnowball,
+  debtAvalanche
+} from './lib/calculators.js';
 
 function formatCurrency(num) {
   return new Intl.NumberFormat('en-US', {
@@ -10,182 +14,207 @@ function formatCurrency(num) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  //
+  // ── CREDIT‑CARD PAYOFF ───────────────────────────────────────────────
+  //
   const payoffForm    = document.getElementById('payoffForm');
-  const payoffResults = document.getElementById('payoffResults');
-  const chartCanvas   = document.getElementById('payoffChart');
-  let payoffChart;
+  if (payoffForm) {
+    const payoffResults = document.getElementById('payoffResults');
+    const chartCanvas   = document.getElementById('payoffChart');
+    let payoffChart;
 
-  // ← hide the empty chart container on initial load
-  chartCanvas.style.display = 'none';
+    payoffForm.addEventListener('submit', e => {
+      e.preventDefault();
 
-  payoffForm.addEventListener('submit', e => {
-    e.preventDefault();
+      const balance = parseFloat(payoffForm.balance.value);
+      const apr     = parseFloat(payoffForm.apr.value);
+      const payment = parseFloat(payoffForm.payment.value);
 
-    const balance = parseFloat(payoffForm.balance.value);
-    const apr     = parseFloat(payoffForm.apr.value);
-    const payment = parseFloat(payoffForm.payment.value);
+      // validation
+      if (isNaN(balance) || isNaN(apr) || isNaN(payment) || payment <= 0) {
+        payoffResults.innerHTML = '<p class="error">Please enter valid numbers for all fields.</p>';
+        return;
+      }
 
-    // basic validation
-    if (isNaN(balance) || isNaN(apr) || isNaN(payment) || payment <= 0) {
-      payoffResults.innerHTML = '<p class="error">Please enter valid numbers for all fields.</p>';
-      return;
-    }
+      const monthlyRate        = apr / 1200;
+      const firstMonthInterest = balance * monthlyRate;
+      if (payment <= firstMonthInterest) {
+        payoffResults.innerHTML = `
+          <p class="error">
+            Your payment of <strong>${formatCurrency(payment)}</strong> is not enough to cover 
+            the first month’s interest of <strong>${formatCurrency(firstMonthInterest)}</strong>.
+          </p>`;
+        return;
+      }
 
-    // ensure payment covers at least first month interest
-    const monthlyRate        = apr / 1200;
-    const firstMonthInterest = balance * monthlyRate;
-    if (payment <= firstMonthInterest) {
+      // build the amortization schedule
+      const schedule = [];
+      let bal = balance, guard = 0;
+      while (bal > 0 && guard++ < 1000) {
+        schedule.push(bal);
+        const interest = bal * monthlyRate;
+        bal = bal + interest - payment;
+      }
+
+      // totals
+      const { months, totalInterest } = creditCardPayoff(balance, apr, payment);
+      const totalPaid = months * payment;
+
       payoffResults.innerHTML = `
-        <p class="error">
-          Your payment of <strong>${formatCurrency(payment)}</strong> is not enough 
-          to cover the first month’s interest of <strong>${formatCurrency(firstMonthInterest)}</strong>.<br>
-          Please increase your monthly payment.
+        <p>
+          It will take <strong>${months}</strong> month${months===1?'':'s'} to pay off your balance.<br>
+          Total interest paid: <strong>${formatCurrency(totalInterest)}</strong><br>
+          Total amount paid: <strong>${formatCurrency(totalPaid)}</strong>
         </p>`;
-      return;
-    }
 
-    // build schedule
-    const schedule = [];
-    let bal    = balance;
-    let safety = 0;
-    while (bal > 0 && safety++ < 1000) {
-      schedule.push(bal);
-      const interest = bal * monthlyRate;
-      bal = bal + interest - payment;
-    }
+      // render/update Chart.js
+      if (chartCanvas) {
+        const labels = schedule.map((_, i) => `Mo ${i+1}`);
+        const data   = schedule.map(v => +v.toFixed(2));
 
-    // totals
-    const { months, totalInterest } = creditCardPayoff(balance, apr, payment);
-    const totalPaid = months * payment;
-
-    payoffResults.innerHTML = `
-      <p>
-        It will take <strong>${months}</strong> month${months === 1 ? '' : 's'} to pay off your balance.<br>
-        Total interest paid: <strong>${formatCurrency(totalInterest)}</strong><br>
-        Total amount paid: <strong>${formatCurrency(totalPaid)}</strong>
-      </p>`;
-
-    // ← reveal the canvas now that we're about to draw
-    chartCanvas.style.display = 'block';
-
-    // prepare chart data
-    const labels = schedule.map((_, i) => `Mo ${i + 1}`);
-    const data   = schedule.map(v => +v.toFixed(2));
-
-    if (payoffChart) {
-      payoffChart.data.labels          = labels;
-      payoffChart.data.datasets[0].data = data;
-      payoffChart.update();
-    } else {
-      payoffChart = new Chart(chartCanvas.getContext('2d'), {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Remaining Balance',
-            data,
-            fill: true,
-            tension: 0.3,
-            backgroundColor: 'rgba(0,122,204,0.1)',
-            borderColor: 'rgba(0,122,204,1)',
-            pointRadius: 0
-          }]
-        },
-        options: {
-          responsive: false,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              display: true,
-              title: { display: true, text: 'Month' },
-              ticks: { maxTicksLimit: 12 }
+        if (payoffChart) {
+          payoffChart.data.labels = labels;
+          payoffChart.data.datasets[0].data = data;
+          payoffChart.update();
+        } else {
+          payoffChart = new Chart(chartCanvas.getContext('2d'), {
+            type: 'line',
+            data: {
+              labels,
+              datasets: [{
+                label: 'Remaining Balance',
+                data,
+                fill: true,
+                tension: 0.3,
+                backgroundColor: 'rgba(0,122,204,0.1)',
+                borderColor: 'rgba(0,122,204,1)',
+                pointRadius: 0
+              }]
             },
-            y: {
-              ticks: {
-                callback: val => formatCurrency(val)
+            options: {
+              responsive: false,
+              maintainAspectRatio: false,
+              scales: {
+                x: { display: false },
+                y: {
+                  ticks: { callback: val => formatCurrency(val) }
+                }
+              },
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: ctx => formatCurrency(ctx.parsed.y)
+                  }
+                },
+                legend: { display: false }
               }
             }
-          },
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: ctx => formatCurrency(ctx.parsed.y)
-              }
-            },
-            legend: { display: false }
-          }
+          });
         }
-      });
-    }
-  });
-});
-// … your existing imports & credit‑card code …
+      }
+    });
+  }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // … above this you already have creditCardPayoff logic …
+  //
+  // ── DEBT‑SNOWBALL ─────────────────────────────────────────────────────
+  //
+  const snowballForm    = document.getElementById('snowballForm');
+  if (snowballForm) {
+    const debtContainer  = document.getElementById('debtContainer');
+    const addDebtBtn     = document.getElementById('addSnowballDebt');
+    const snowballResults= document.getElementById('snowballResults');
+    let count = debtContainer.querySelectorAll('.debt-entry').length || 3;
 
-// ──────────────────────────────
-// Debt‑Snowball Form
-// ──────────────────────────────
-const snowballForm    = document.getElementById('snowballForm');
-const snowballResults = document.getElementById('snowballResults');
-const debtContainer   = document.getElementById('debtContainer');
-const addSnowballBtn  = document.getElementById('addSnowballDebt');
-let snowballCount     = 3;
+    // dynamic +Add another debt
+    addDebtBtn.addEventListener('click', () => {
+      if (count >= 10) return;
+      count++;
+      const div = document.createElement('div');
+      div.className = 'debt-entry';
+      div.innerHTML = `
+        <label>Debt ${count} Balance ($):
+          <input name="balance" type="number" placeholder="e.g. 1000">
+        </label>
+        <label>APR (%):
+          <input name="apr" type="number" step="0.01" placeholder="e.g. 12.00">
+        </label>
+        <label>Min Payment ($):
+          <input name="minPayment" type="number" placeholder="e.g. 25">
+        </label>`;
+      debtContainer.append(div);
+    });
 
-if (addSnowballBtn) {
-  addSnowballBtn.addEventListener('click', () => {
-    if (snowballCount >= 10) return;  // optional cap
-    snowballCount++;
-    const div = document.createElement('div');
-    div.className = 'debt-entry';
-    div.innerHTML = `
-      <label>Debt ${snowballCount} Balance ($): <input name="balance" type="number" placeholder="e.g. 1000"></label>
-      <label>APR (%):             <input name="apr"     type="number" step="0.01" placeholder="e.g. 12.00"></label>
-      <label>Min Payment ($):     <input name="minPayment" type="number" placeholder="e.g. 25"></label>
-    `;
-    debtContainer.append(div);
-  });
-}
+    snowballForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const entries = Array.from(
+        debtContainer.querySelectorAll('.debt-entry')
+      )
+      .map((row,i) => {
+        const b = parseFloat(row.querySelector('input[name="balance"]').value);
+        const a = parseFloat(row.querySelector('input[name="apr"]').value);
+        const m = parseFloat(row.querySelector('input[name="minPayment"]').value);
+        return (isNaN(b)||isNaN(a)||isNaN(m))
+          ? null
+          : { id:i+1, startingBalance:b, monthlyRate:a/1200, minPayment:m };
+      })
+      .filter(x => x);
 
-if (snowballForm) {
-  snowballForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const entries = Array.from(
-      debtContainer.querySelectorAll('.debt-entry')
-    )
-    .map((row, i) => {
-      const bal  = parseFloat(row.querySelector('input[name="balance"]').value);
-      const apr  = parseFloat(row.querySelector('input[name="apr"]').value);
-      const minP = parseFloat(row.querySelector('input[name="minPayment"]').value);
-      return (isNaN(bal)||isNaN(apr)||isNaN(minP))
-        ? null
-        : { id: i+1, startingBalance: bal, monthlyRate: apr/1200, minPayment: minP };
-    })
-    .filter(x => x);
+      if (!entries.length) {
+        snowballResults.innerHTML = '<p class="error">Please enter at least one valid debt.</p>';
+        return;
+      }
 
-    if (!entries.length) {
-      snowballResults.innerHTML = '<p class="error">Please enter at least one valid debt.</p>';
-      return;
-    }
+      const { months, totalInterest, details } = debtSnowball(entries);
+      snowballResults.innerHTML = `
+        <p>
+          All debts paid in <strong>${months}</strong> month${months===1?'':'s'}<br>
+          Total interest paid: <strong>${formatCurrency(totalInterest)}</strong>
+        </p>
+        <ul>
+          ${details.map(d=>
+            `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`
+          ).join('')}
+        </ul>`;
+    });
+  }
 
-    const { months, totalInterest, details } = debtSnowball(entries);
-    snowballResults.innerHTML = `
-      <p>
-        All debts paid in <strong>${months}</strong> month${months===1?'':'s'}<br>
-        Total interest paid: <strong>${formatCurrency(totalInterest)}</strong>
-      </p>
-      <ul>
-        ${details.map(d=>
-          `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`
-        ).join('')}
-      </ul>
-    `;
-  });
-}
+  //
+  // ── DEBT‑AVALANCHE ────────────────────────────────────────────────────
+  //
+  const avalancheForm    = document.getElementById('avalancheForm');
+  if (avalancheForm) {
+    const avalancheResults = document.getElementById('avalancheResults');
+    avalancheForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const entries = Array.from(
+        document.querySelectorAll('.debt-entry')
+      )
+      .map((row,i) => {
+        const b = parseFloat(row.querySelector('input[name="balance"]').value);
+        const a = parseFloat(row.querySelector('input[name="apr"]').value);
+        const m = parseFloat(row.querySelector('input[name="minPayment"]').value);
+        return (isNaN(b)||isNaN(a)||isNaN(m))
+          ? null
+          : { id:i+1, startingBalance:b, monthlyRate:a/1200, minPayment:m };
+      })
+      .filter(x => x);
 
-// … now your avalanche code follows …
+      if (!entries.length) {
+        avalancheResults.innerHTML = '<p class="error">Please enter at least one valid debt.</p>';
+        return;
+      }
 
-
-  // … your avalanche logic follows …
+      const { months, totalInterest, details } = debtAvalanche(entries);
+      avalancheResults.innerHTML = `
+        <p>
+          All debts paid in <strong>${months}</strong> month${months===1?'':'s'}<br>
+          Total interest paid: <strong>${formatCurrency(totalInterest)}</strong>
+        </p>
+        <ul>
+          ${details.map(d=>
+            `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`
+          ).join('')}
+        </ul>`;
+    });
+  }
 });
