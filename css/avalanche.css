@@ -77,14 +77,10 @@
     height: auto !important;
   }
   /* —— Force APR field to match the height of the other inputs —— */
-#avalancheContainer .debt-entry input[name="apr"] {
-    /* same generous padding as the other fields */
+  #avalancheContainer .debt-entry input[name="apr"] {
     padding: 0.75rem 1rem !important;
-    /* same line height */
     line-height: 1.4 !important;
-    /* remove any width cap so it fills its grid cell like the others */
-    max-width: none !important;
-    /* clear any fixed height */
     height: auto !important;
+    max-width: none !important;
   }
   
