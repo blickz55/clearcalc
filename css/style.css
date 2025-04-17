@@ -557,3 +557,17 @@ button:hover {
   height: auto;
   line-height: 1.4;
 }
+/* ──────────────────────── Slim down just the APR input in Snowball ── */
+#debtContainer .debt-entry input[name="apr"] {
+  padding: 0.5rem 0.75rem;    /* less vertical padding */
+  height: auto;              /* let it size to content */
+  line-height: 1.4;          /* tighten up the text */
+}
+
+/* ───────────────────────────────── Force equal‑share columns ── */
+#debtContainer .debt-entry {
+  /* replace your existing 3‑col rule with: */
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--field-spacing);
+}
