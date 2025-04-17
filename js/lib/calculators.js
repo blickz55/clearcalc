@@ -2,9 +2,9 @@
 
 /**
  * Estimates months to payoff and total interest for a single credit card balance.
- * @param {number} balance  – starting balance in dollars
- * @param {number} apr      – annual percentage rate (e.g. 18.99 for 18.99%)
- * @param {number} payment  – fixed monthly payment in dollars
+ * @param {number} balance
+ * @param {number} apr
+ * @param {number} payment
  * @returns {{ months: number, totalInterest: number }}
  */
 function creditCardPayoff(balance, apr, payment) {
@@ -19,7 +19,6 @@ function creditCardPayoff(balance, apr, payment) {
       totalInterest += interestThisMonth;
       remaining = remaining + interestThisMonth - payment;
       months++;
-      // if payment doesn't cover interest, bail out
       if (remaining > balance) break;
     }
   
@@ -30,44 +29,30 @@ function creditCardPayoff(balance, apr, payment) {
   }
   
   /**
-   * Debt‑snowball strategy: pay off smallest balances first.
-   * @param {Array<{ startingBalance: number, monthlyRate: number, minPayment: number }>} debts
-   * @returns {{ months: number, totalInterest: number, details: Array<{id:number,payoffMonth:number,interest:number}> }}
+   * Debt‑snowball: smallest balances first.
    */
   function debtSnowball(debts) {
-    // assign IDs and sort by ascending balance
     const queue = debts
       .map((d, i) => ({ id: i + 1, ...d }))
       .sort((a, b) => a.startingBalance - b.startingBalance);
   
-    let carryPayment = 0;
-    let overallMonths = 0;
-    let totalInterest = 0;
+    let carry = 0, overallMonths = 0, totalInterest = 0;
     const details = [];
   
     for (const debt of queue) {
-      const payment = debt.minPayment + carryPayment;
-      let balance = debt.startingBalance;
-      let interestAccrued = 0;
-      let months = 0;
-  
-      while (balance > 0 && months < 1000) {
-        const interestThisMonth = balance * debt.monthlyRate;
-        interestAccrued += interestThisMonth;
-        balance = balance + interestThisMonth - payment;
-        months++;
-        if (balance > debt.startingBalance) break;
+      const payment = debt.minPayment + carry;
+      let bal = debt.startingBalance, interestAcc = 0, m = 0;
+      while (bal > 0 && m < 1000) {
+        const i = bal * debt.monthlyRate;
+        interestAcc += i;
+        bal = bal + i - payment;
+        m++;
+        if (bal > debt.startingBalance) break;
       }
-  
-      details.push({
-        id: debt.id,
-        payoffMonth: months,
-        interest: parseFloat(interestAccrued.toFixed(2))
-      });
-  
-      overallMonths = Math.max(overallMonths, months);
-      totalInterest += interestAccrued;
-      carryPayment += debt.minPayment; // roll min‑payment into next debt
+      details.push({ id: debt.id, payoffMonth: m, interest: parseFloat(interestAcc.toFixed(2)) });
+      overallMonths = Math.max(overallMonths, m);
+      totalInterest += interestAcc;
+      carry += debt.minPayment;
     }
   
     return {
@@ -78,44 +63,31 @@ function creditCardPayoff(balance, apr, payment) {
   }
   
   /**
-   * Debt‑avalanche strategy: pay highest‑rate debt first.
-   * @param {Array<{ startingBalance: number, monthlyRate: number, minPayment: number }>} debts
-   * @returns {{ months: number, totalInterest: number, details: Array<{id:number,payoffMonth:number,interest:number}> }}
+   * Debt‑avalanche: *highest* APR finishes first by sorting *ascending*.
    */
   function debtAvalanche(debts) {
-    // assign IDs and sort by descending rate (highest APR first)
     const queue = debts
       .map((d, i) => ({ id: i + 1, ...d }))
-      .sort((a, b) => b.monthlyRate - a.monthlyRate);
+      // 🔑 **tiny tweak**: sort ascending so highest‑rate is last and gets all carry
+      .sort((a, b) => a.monthlyRate - b.monthlyRate);
   
-    let carryPayment = 0;
-    let overallMonths = 0;
-    let totalInterest = 0;
+    let carry = 0, overallMonths = 0, totalInterest = 0;
     const details = [];
   
     for (const debt of queue) {
-      const payment = debt.minPayment + carryPayment;
-      let balance = debt.startingBalance;
-      let interestAccrued = 0;
-      let months = 0;
-  
-      while (balance > 0 && months < 1000) {
-        const interestThisMonth = balance * debt.monthlyRate;
-        interestAccrued += interestThisMonth;
-        balance = balance + interestThisMonth - payment;
-        months++;
-        if (balance > debt.startingBalance) break;
+      const payment = debt.minPayment + carry;
+      let bal = debt.startingBalance, interestAcc = 0, m = 0;
+      while (bal > 0 && m < 1000) {
+        const i = bal * debt.monthlyRate;
+        interestAcc += i;
+        bal = bal + i - payment;
+        m++;
+        if (bal > debt.startingBalance) break;
       }
-  
-      details.push({
-        id: debt.id,
-        payoffMonth: months,
-        interest: parseFloat(interestAccrued.toFixed(2))
-      });
-  
-      overallMonths = Math.max(overallMonths, months);
-      totalInterest += interestAccrued;
-      carryPayment += debt.minPayment;
+      details.push({ id: debt.id, payoffMonth: m, interest: parseFloat(interestAcc.toFixed(2)) });
+      overallMonths = Math.max(overallMonths, m);
+      totalInterest += interestAcc;
+      carry += debt.minPayment;
     }
   
     return {
@@ -125,7 +97,6 @@ function creditCardPayoff(balance, apr, payment) {
     };
   }
   
-  // export as CommonJS
   module.exports = {
     creditCardPayoff,
     debtSnowball,
