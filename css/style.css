@@ -1,70 +1,129 @@
-/* Existing global styles… */
-
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  color: #333;
-}
-
-header, footer {
-  background: #f8f8f8;
-  padding: 1em;
-  text-align: center;
-}
-
-/* …other existing rules… */
-
-/* Remove outer .calculator border entirely */
-/* .calculator { … } */
-
-/* Only style the form container */
-.calculator form {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 1em;
-  border-radius: 4px;
-  margin-bottom: 2em;
-}
-
-/* Grid layout for each debt row */
-.debt-entry {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-/* Labels stack above inputs */
-.debt-entry label {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.9rem;
-}
-
-/* Inputs fill their columns */
-.debt-entry input {
-  width: 100%;
-  padding: 0.4em;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  margin-top: 0.3em;
-}
-
-/* Buttons (snowball & payoff) */
-.calculator button[type="submit"],
-#calculateBtn {
-  background: #007acc;
-  color: #fff;
-  border: none;
-  padding: 0.6em 1.2em;
-  font-size: 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.calculator button[type="submit"]:hover,
-#calculateBtn:hover {
-  background: #005fa3;
-}
+/* =============================
+   Global & Reset Styles
+   ============================= */
+   * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background: #f4f4f4;
+  }
+  
+  header,
+  footer {
+    background: #f8f8f8;
+    padding: 1em;
+    text-align: center;
+    border-bottom: 1px solid #e2e2e2;
+  }
+  
+  /* =============================
+     Homepage & Content Layout
+     ============================= */
+  main {
+    max-width: 900px;
+    margin: 2em auto;
+    padding: 0 1em;
+  }
+  
+  /* =============================
+     Calculator Section
+     ============================= */
+  section.calculator {
+    /* center the form in its section */
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2em;
+  }
+  
+  /* style the form itself */
+  section.calculator form {
+    width: 100%;
+    max-width: 800px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.5em;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  
+  /* =============================
+     Debt-Entry Grid
+     ============================= */
+  .debt-entry {
+    display: grid;
+    /* three equal columns */
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .debt-entry label {
+    /* stack label over input */
+    display: flex;
+    flex-direction: column;
+    font-size: 0.95rem;
+    color: #222;
+  }
+  
+  .debt-entry input {
+    width: 100%;
+    padding: 0.5em;
+    margin-top: 0.3em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  /* =============================
+     Buttons
+     ============================= */
+  .calculator button[type="submit"],
+  #calculateBtn {
+    display: inline-block;
+    background: #007acc;
+    color: #fff;
+    border: none;
+    padding: 0.75em 1.5em;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1em;
+  }
+  
+  .calculator button[type="submit"]:hover,
+  #calculateBtn:hover {
+    background: #005fa3;
+  }
+  
+  /* =============================
+     Results & Errors
+     ============================= */
+  .results {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 1.5em;
+    padding: 1em;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  
+  .error {
+    color: #b00020;
+  }
+  
+  /* =============================
+     Footer
+     ============================= */
+  footer {
+    border-top: 1px solid #e2e2e2;
+    margin-top: 2em;
+  }
+  
