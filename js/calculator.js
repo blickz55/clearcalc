@@ -13,10 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const payoffForm    = document.getElementById('payoffForm');
   const payoffResults = document.getElementById('payoffResults');
   const chartCanvas   = document.getElementById('payoffChart');
-  const chartWrap     = chartCanvas.parentElement;
   let payoffChart;
-
-  chartWrap.classList.remove('active'); // start closed
 
   if (payoffForm) {
     payoffForm.addEventListener('submit', e => {
@@ -26,11 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const apr     = parseFloat(payoffForm.apr.value);
       const payment = parseFloat(payoffForm.payment.value);
 
+      // basic validation
       if (isNaN(balance) || isNaN(apr) || isNaN(payment) || payment <= 0) {
         payoffResults.innerHTML = '<p class="error">Please enter valid numbers for all fields.</p>';
         return;
       }
 
+      // ensure payment covers at least first month interest
       const monthlyRate        = apr / 1200;
       const firstMonthInterest = balance * monthlyRate;
       if (payment <= firstMonthInterest) {
@@ -43,16 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // build the payoff schedule
+      // build schedule array
       const schedule = [];
-      let bal = balance, safety = 0;
+      let bal = balance;
+      let safety = 0;
       while (bal > 0 && safety++ < 1000) {
         schedule.push(bal);
         const interest = bal * monthlyRate;
         bal = bal + interest - payment;
       }
 
-      // get totals
+      // run payoff for totals
       const { months, totalInterest } = creditCardPayoff(balance, apr, payment);
       const totalPaid = months * payment;
 
@@ -63,12 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
           Total amount paid: <strong>${formatCurrency(totalPaid)}</strong>
         </p>`;
 
-      // prepare chart data
+      // render/update Chart.js
       const labels = schedule.map((_, i) => `Mo ${i + 1}`);
       const data   = schedule.map(v => parseFloat(v.toFixed(2)));
-
-      // reveal & animate open
-      chartWrap.classList.add('active');
 
       if (payoffChart) {
         payoffChart.data.labels = labels;
@@ -90,21 +87,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }]
           },
           options: {
-            responsive: false,
-            maintainAspectRatio: false,
+            responsive: false,           // ← disable auto-resize
+            maintainAspectRatio: false,  // ← honor canvas width/height
             scales: {
-              x: {
-                display: true,
-                title: { display: true, text: 'Month' },
-                ticks: { maxTicksLimit: 12 }
-              },
+              x: { display: false },
               y: {
-                ticks: { callback: val => formatCurrency(val) }
+                ticks: {
+                  callback: val => formatCurrency(val)
+                }
               }
             },
             plugins: {
               tooltip: {
-                callbacks: { label: ctx => formatCurrency(ctx.parsed.y) }
+                callbacks: {
+                  label: ctx => formatCurrency(ctx.parsed.y)
+                }
               },
               legend: { display: false }
             }

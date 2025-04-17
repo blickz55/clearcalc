@@ -54,14 +54,12 @@
 
       <div id="payoffResults" class="results"></div>
 
-      <!-- chart canvas wrapped in a hidden container -->
-      <div class="chart-container">
-        <canvas id="payoffChart"
-          width="600"
-          height="300"
-          style="width:100%;max-width:600px;margin:2rem auto 0;display:block">
-        </canvas>
-      </div>
+      <!--  ← here’s our canvas for the payoff‐schedule chart →  -->
+      <canvas id="payoffChart"
+        width="600"
+        height="300"
+        style="width:100%;max-width:600px;margin:2rem auto 0;display:block">
+</canvas>
     </section>
   </main>
 
@@ -69,7 +67,9 @@
     <p>&copy; 2025 ClearCalc.io — <a href="../index.html">Home</a></p>
   </footer>
 
+  <!-- Chart.js from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- our logic (module) -->
   <script type="module" src="../js/calculator.js"></script>
 </body>
 </html>
