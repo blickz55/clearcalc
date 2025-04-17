@@ -1,14 +1,19 @@
 /* css/avalanche.css */
 
-/* Container & rows */
+/* Container: 3 columns, then 1 on mobile */
 #avalancheContainer {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--field-spacing);
     margin-bottom: var(--spacing);
   }
+  @media (max-width: 600px) {
+    #avalancheContainer {
+      grid-template-columns: 1fr;
+    }
+  }
   
-  /* Each debt row */
+  /* Each debt row: alternating background */
   #avalancheContainer .debt-entry {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -17,7 +22,6 @@
     border-radius: var(--border-radius);
     background: var(--surface-alt);
   }
-  
   #avalancheContainer .debt-entry:nth-child(even) {
     background: var(--surface);
   }
@@ -29,7 +33,7 @@
     margin-bottom: 0.25rem;
   }
   
-  /* Inputs */
+  /* Inputs styling */
   #avalancheContainer .debt-entry input {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -46,7 +50,7 @@
     max-width: 80px;
   }
   
-  /* Actions row */
+  /* Action buttons row */
   #avalancheForm .actions {
     display: flex;
     gap: var(--field-spacing);
@@ -54,15 +58,5 @@
   }
   #avalancheForm .actions button {
     flex: 1;
-  }
-  
-  /* Mobile: stack into one column */
-  @media (max-width: 600px) {
-    #avalancheContainer {
-      grid-template-columns: 1fr;
-    }
-    #avalancheForm .actions {
-      flex-direction: column;
-    }
   }
   
