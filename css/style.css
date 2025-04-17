@@ -318,3 +318,33 @@ button:hover {
   margin-bottom: 0.25rem;
   font-weight: 500;
 }
+/* ──────────────────────────────────────────────────────────────── */
+/* Placeholder for empty results containers                      */
+/* ──────────────────────────────────────────────────────────────── */
+.results {
+  /* you probably already have these: */
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  margin-top: var(--spacing);
+
+  /* ensure it’s never too small (so the placeholder has room) */
+  min-height: 3rem;
+}
+
+/* when .results has no children, show a dashed, muted placeholder */
+.results:empty {
+  border-style: dashed;
+  background: var(--surface-alt);
+}
+
+.results:empty::before {
+  content: "Your results will appear here";
+  display: block;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  line-height: 3rem;    /* vertically center the text */
+}
