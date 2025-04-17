@@ -46,8 +46,9 @@ export function creditCardPayoff(balance, apr, payment) {
       // pay everything you can at first
       const primary = queue[0];
       const avail = queue.reduce((sum, d) => sum + d.minPayment, 0);
-      primary.startingBalance += primary.startingBalance * primary.monthlyRate - avail;
-      totalInterest += primary.startingBalance * primary.monthlyRate;
+      const interest = primary.startingBalance * primary.monthlyRate;
+    primary.startingBalance += interest - avail;
+    totalInterest += interest;
   
       if (primary.startingBalance <= 0) {
         details.push({ 
@@ -88,8 +89,9 @@ export function creditCardPayoff(balance, apr, payment) {
       // pay everything you can at first
       const primary = queue[0];
       const avail = queue.reduce((sum, d) => sum + d.minPayment, 0);
-      primary.startingBalance += primary.startingBalance * primary.monthlyRate - avail;
-      totalInterest += primary.startingBalance * primary.monthlyRate;
+      const interest = primary.startingBalance * primary.monthlyRate;
+    primary.startingBalance += interest - avail;
+    totalInterest += interest;
   
       if (primary.startingBalance <= 0) {
         details.push({ 
