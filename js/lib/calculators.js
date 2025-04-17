@@ -1,21 +1,27 @@
 // js/lib/calculators.js
 
-// Credit‐card payoff
+// Credit‐card payoff (now returns schedule)
 export function creditCardPayoff(balance, apr, payment) {
     const monthlyRate = apr / 1200;
     let months = 0;
     let interest = 0;
     let bal = balance;
+    const schedule = [balance];
   
     while (bal > 0) {
       const monthlyInterest = bal * monthlyRate;
       interest += monthlyInterest;
       bal = bal + monthlyInterest - payment;
       months++;
+      schedule.push(Math.max(bal, 0));
       if (months > 1000) break; // safety valve
     }
   
-    return { months, totalInterest: interest };
+    return { 
+      months, 
+      totalInterest: interest, 
+      schedule 
+    };
   }
   
   // Debt‐snowball
@@ -44,7 +50,11 @@ export function creditCardPayoff(balance, apr, payment) {
       totalInterest += primary.startingBalance * primary.monthlyRate;
   
       if (primary.startingBalance <= 0) {
-        details.push({ id: primary.id, payoffMonth: month, interestPaid: totalInterest });
+        details.push({ 
+          id: primary.id, 
+          payoffMonth: month, 
+          interestPaid: totalInterest 
+        });
         queue.shift();
       }
     }
@@ -69,7 +79,7 @@ export function creditCardPayoff(balance, apr, payment) {
   
     while (queue.length) {
       month++;
-      // pay minimum on all but first
+      // pay min on all but first
       queue.slice(1).forEach(d => {
         d.startingBalance += d.startingBalance * d.monthlyRate - d.minPayment;
         totalInterest += d.startingBalance * d.monthlyRate;
@@ -82,7 +92,11 @@ export function creditCardPayoff(balance, apr, payment) {
       totalInterest += primary.startingBalance * primary.monthlyRate;
   
       if (primary.startingBalance <= 0) {
-        details.push({ id: primary.id, payoffMonth: month, interestPaid: totalInterest });
+        details.push({ 
+          id: primary.id, 
+          payoffMonth: month, 
+          interestPaid: totalInterest 
+        });
         queue.shift();
       }
     }
