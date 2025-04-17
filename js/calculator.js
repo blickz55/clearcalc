@@ -87,10 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }]
           },
           options: {
+            responsive: false,           // ← disable auto-resize
+            maintainAspectRatio: false,  // ← honor canvas width/height
             scales: {
-              x: { 
-                display: false 
-              },
+              x: { display: false },
               y: {
                 ticks: {
                   callback: val => formatCurrency(val)
@@ -104,9 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
               },
               legend: { display: false }
-            },
-            maintainAspectRatio: false,
-            height: 300
+            }
           }
         });
       }

@@ -348,3 +348,11 @@ button:hover {
   text-align: center;
   line-height: 3rem;    /* vertically center the text */
 }
+#payoffChart {
+  width: 100% !important;
+  max-width: 600px;
+  height: 300px !important;
+  max-height: 300px;
+  margin: 2rem auto 0;
+  display: block;
+}
