@@ -9,15 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const resultsDiv   = document.getElementById('results');
 
   calcBtn.addEventListener('click', function() {
-    // Clear previous results
     resultsDiv.innerHTML = '';
-
-    // Parse inputs
     const balance = parseFloat(balanceInput.value);
     const apr     = parseFloat(aprInput.value);
     const payment = parseFloat(paymentInput.value);
 
-    // Validate
     if (isNaN(balance) || balance <= 0) {
       resultsDiv.innerHTML = '<p class="error">Please enter a valid balance.</p>';
       return;
@@ -31,25 +27,20 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Calculation
     const monthlyRate = apr / 100 / 12;
     let remaining    = balance;
     let totalInterest = 0;
     let months        = 0;
-    const maxMonths   = 1000; // safety to avoid infinite loop
+    const maxMonths   = 1000;
 
     while (remaining > 0 && months < maxMonths) {
       const interestThisMonth = remaining * monthlyRate;
       totalInterest += interestThisMonth;
       remaining = remaining + interestThisMonth - payment;
       months++;
-      // If payment doesn't even cover the interest, break
-      if (remaining > balance) {
-        break;
-      }
+      if (remaining > balance) break;
     }
 
-    // Render results
     if (months >= maxMonths || remaining > 0) {
       resultsDiv.innerHTML = `
         <p class="error">
@@ -62,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <p>Total interest paid: <strong>$${totalInterest.toFixed(2)}</strong></p>
       `;
     }
-  });  // ← end of payoff listener
+  });
 
   // --- Debt Snowball Calculator ---
   const snowballForm   = document.getElementById('snowballForm');
@@ -72,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     e.preventDefault();
     snowballOutput.innerHTML = '';
 
-    // Gather debts
+    // Gather debts and filter out blank entries
     const entries = Array.from(snowballForm.querySelectorAll('.debt-entry'));
     const debts = entries.map((entry, idx) => {
       const bal  = parseFloat(entry.querySelector('input[name="balance"]').value);
@@ -82,32 +73,28 @@ document.addEventListener('DOMContentLoaded', function() {
         id: idx + 1,
         startingBalance: bal,
         balance: bal,
-        monthlyRate: apr / 100 / 12,
+        monthlyRate: apr > 0 ? apr / 100 / 12 : 0,
         minPayment: minP,
         interestPaid: 0,
         payoffMonth: null
       };
-    });
+    })
+    .filter(d => !isNaN(d.startingBalance) && d.startingBalance > 0
+              && !isNaN(d.minPayment) && d.minPayment > 0);
 
-    // Basic validation
-    for (const d of debts) {
-      if (d.balance <= 0 || d.minPayment <= 0) {
-        snowballOutput.innerHTML = '<p class="error">All balances and payments must be greater than 0.</p>';
-        return;
-      }
+    if (debts.length === 0) {
+      snowballOutput.innerHTML = '<p class="error">Enter at least one debt with a balance and payment.</p>';
+      return;
     }
 
-    // Determine snowball order (smallest starting balance first)
+    // Determine snowball order
     const order = debts.slice().sort((a, b) => a.startingBalance - b.startingBalance);
-    const totalMin = debts.reduce((sum, d) => sum + d.minPayment, 0);
-
     let month = 0;
     const maxMonths = 600;
 
     // Run simulation
     while (debts.some(d => d.balance > 0.01) && month < maxMonths) {
       month++;
-
       // 1) Accrue interest
       debts.forEach(d => {
         if (d.balance > 0) {
@@ -117,12 +104,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
 
-      // 2) Calculate freed-up payment from paid-off debts
+      // 2) Freed payment
       const freedPayment = debts
         .filter(d => d.balance <= 0.01)
         .reduce((sum, d) => sum + d.minPayment, 0);
 
-      // 3) Find current target (first unpaid in the snowball order)
+      // 3) Current target
       const target = order.find(d => d.balance > 0.01);
 
       // 4) Apply payments
@@ -156,6 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
       html += '</ul>';
       snowballOutput.innerHTML = html;
     }
-  });  // ← end of snowball listener
+  });
 
-});  // ← end of DOMContentLoaded
+});  // end DOMContentLoaded
