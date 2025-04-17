@@ -1,64 +1,57 @@
-/* css/avalanche.css */
-/* Must be included *after* style.css */
-
-/* 1) Form wrapper */
+/* Avalanche Overrides */
 #avalancheForm {
     display: flex;
     flex-direction: column;
     gap: var(--spacing);
   }
   
-  /* 2) Grid of debts */
+  /* One row per debt, three columns, alternating row bg */
   #avalancheContainer {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--field-spacing);
     margin-bottom: var(--spacing);
   }
   
-  /* 3) Each debt row */
   #avalancheContainer .debt-entry {
     display: grid;
-    /* 3 columns: auto (balance), min-content (apr), auto (payment) */
-    grid-template-columns: 1fr minmax(0, max-content) 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--field-spacing);
-    background: var(--surface-alt);
     padding: var(--field-spacing);
     border-radius: var(--border-radius);
+    background: var(--surface-alt);
   }
   
-  /* 4) Alternate row shading */
   #avalancheContainer .debt-entry:nth-child(even) {
     background: var(--surface);
   }
   
-  /* 5) Label styling */
+  /* Labels stack, inputs full‑width except APR */
   #avalancheContainer .debt-entry label {
-    display: block;
-    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
     font-weight: 500;
     margin-bottom: 0.25rem;
-    color: var(--text-color);
   }
   
-  /* 6) Inputs (default full width) */
   #avalancheContainer .debt-entry input {
     width: 100%;
     padding: 0.75rem 1rem;
     border: 1px solid var(--border);
     border-radius: var(--border-radius);
     background: #f9f9f9;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  /* 7) Slim down the APR field */
-  #avalancheContainer .debt-entry input[name="apr"] {
-    max-width: 80px;
-    padding: 0.5rem 0.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    height: auto;
     line-height: 1.4;
   }
   
-  /* 8) Action buttons */
+  /* Slim down only the APR field */
+  #avalancheContainer .debt-entry input[name="apr"] {
+    max-width: 80px;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  /* Action buttons */
   #avalancheForm .actions {
     display: flex;
     gap: var(--field-spacing);
@@ -68,7 +61,7 @@
     flex: 1;
   }
   
-  /* 9) Mobile stacking */
+  /* Mobile: stack debts and buttons */
   @media (max-width: 600px) {
     #avalancheContainer {
       grid-template-columns: 1fr;
