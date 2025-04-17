@@ -1,99 +1,95 @@
 /* snowball.css — loaded after style.css */
 
-/* target only the Snowball container */
+#debtContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-spacing);
+  margin-bottom: var(--spacing);
+}
+
 #debtContainer > .debt-entry {
-    display: grid !important;                   /* override the flex */
-    grid-template-columns: repeat(3,minmax(0,1fr));
-    gap: var(--field-spacing);
-    padding: var(--field-spacing);
-    border-radius: var(--border-radius);
-    background: var(--surface-alt);
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--field-spacing);
+  padding: var(--field-spacing);
+  border-radius: var(--border-radius);
+  background: var(--surface-alt);
+}
+#debtContainer > .debt-entry:nth-child(even) {
+  background: var(--surface);
+}
+
+#debtContainer > .debt-entry label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+#debtContainer > .debt-entry input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  height: 2.75rem;
+  line-height: 1.4;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  background: #f9f9f9;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#debtContainer > .debt-entry input:hover {
+  background: #fff;
+}
+#debtContainer > .debt-entry input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0,122,204,0.3);
+}
+
+/* Actions */
+#snowballForm .actions {
+  display: flex;
+  gap: var(--field-spacing);
+  margin-top: var(--spacing);
+}
+#snowballForm .actions button {
+  flex: 1;
+}
+
+/* Results */
+#snowballResults ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 1rem;
+}
+#snowballResults ul li {
+  position: relative;
+  margin-bottom: 0.25rem;
+  padding-left: 1rem;
+}
+#snowballResults ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
+
+/* Chart */
+#snowballChart {
+  display: none;
+  width: 100% !important;
+  max-width: 600px;
+  height: 300px !important;
+  margin: 2rem auto 0;
+}
+#snowballChart.active {
+  display: block;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  #debtContainer > .debt-entry {
+    grid-template-columns: 1fr;
   }
-  
-  #debtContainer > .debt-entry:nth-child(even) {
-    background: var(--surface);
-  }
-  
-  /* stack label + input vertically */
-  #debtContainer > .debt-entry label {
-    display: flex;
-    flex-direction: column;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-  }
-  
-  /* uniform inputs */
-  #debtContainer > .debt-entry input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--border-radius);
-    background: #f9f9f9;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  #debtContainer > .debt-entry input:hover {
-    background: #fff;
-  }
-  #debtContainer > .debt-entry input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0,122,204,0.3);
-  }
-  
-  /* slim down just the APR field */
-  #debtContainer .debt-entry input[name="apr"] {
-    padding: 0.75rem 1rem !important;
-    line-height: 1.4 !important;
-    height: 2.75rem !important;
-    max-width: none !important;
-  }
-  
-  /* actions row */
   #snowballForm .actions {
-    display: flex;
-    gap: var(--field-spacing);
-    margin-top: var(--spacing);
+    flex-direction: column;
   }
-  #snowballForm .actions button {
-    flex: 1;
-  }
-  
-  /* results list */
-  #snowballResults ul {
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 0 1rem;
-  }
-  #snowballResults ul li {
-    position: relative;
-    margin-bottom: 0.25rem;
-    padding-left: 1rem;
-  }
-  #snowballResults ul li::before {
-    content: "–";
-    position: absolute;
-    left: 0;
-    color: var(--primary-color);
-  }
-  
-  /* chart */
-  #snowballChart {
-    display: none;
-    width: 100% !important;
-    max-width: 600px;
-    height: 300px !important;
-    margin: 2rem auto 0;
-  }
-  #snowballChart.active {
-    display: block;
-  }
-  
-  /* mobile fallback */
-  @media (max-width: 600px) {
-    #debtContainer {
-      grid-template-columns: 1fr !important;
-    }
-    #snowballForm .actions {
-      flex-direction: column;
-    }
-  }
-  
+}
