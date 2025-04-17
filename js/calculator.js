@@ -1,3 +1,4 @@
+// js/calculator.js
 import { creditCardPayoff } from './lib/calculators.js';
 
 function formatCurrency(num) {
@@ -14,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const chartCanvas   = document.getElementById('payoffChart');
   let payoffChart;
 
+  // ← hide the empty chart container on initial load
+  chartCanvas.style.display = 'none';
+
   payoffForm.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -21,24 +25,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const apr     = parseFloat(payoffForm.apr.value);
     const payment = parseFloat(payoffForm.payment.value);
 
-    // validation
+    // basic validation
     if (isNaN(balance) || isNaN(apr) || isNaN(payment) || payment <= 0) {
       payoffResults.innerHTML = '<p class="error">Please enter valid numbers for all fields.</p>';
       return;
     }
 
+    // ensure payment covers at least first month interest
     const monthlyRate        = apr / 1200;
-    const firstInt           = balance * monthlyRate;
-    if (payment <= firstInt) {
+    const firstMonthInterest = balance * monthlyRate;
+    if (payment <= firstMonthInterest) {
       payoffResults.innerHTML = `
         <p class="error">
-          Your payment of <strong>${formatCurrency(payment)}</strong> is not enough to cover the first month's interest of 
-          <strong>${formatCurrency(firstInt)}</strong>.
+          Your payment of <strong>${formatCurrency(payment)}</strong> is not enough 
+          to cover the first month’s interest of <strong>${formatCurrency(firstMonthInterest)}</strong>.<br>
+          Please increase your monthly payment.
         </p>`;
       return;
     }
 
-    // build paydown schedule
+    // build schedule
     const schedule = [];
     let bal    = balance;
     let safety = 0;
@@ -59,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Total amount paid: <strong>${formatCurrency(totalPaid)}</strong>
       </p>`;
 
-    // show the canvas
+    // ← reveal the canvas now that we're about to draw
     chartCanvas.style.display = 'block';
 
     // prepare chart data
@@ -67,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data   = schedule.map(v => +v.toFixed(2));
 
     if (payoffChart) {
-      payoffChart.data.labels = labels;
+      payoffChart.data.labels          = labels;
       payoffChart.data.datasets[0].data = data;
       payoffChart.update();
     } else {
