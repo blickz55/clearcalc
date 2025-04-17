@@ -176,7 +176,19 @@ document.addEventListener('DOMContentLoaded', () => {
           </p>`;
         return;
       }
-
+// make sure each minPayment > first‑month interest
+const bad = entries.find(d => d.minPayment <= d.startingBalance * d.monthlyRate);
+if (bad) {
+  snowballResults.innerHTML = `
+    <p class="error">
+      Debt ${bad.id}'s minimum payment of <strong>${formatCurrency(bad.minPayment)}</strong><br>
+      does not cover its first month’s interest of
+      <strong>${formatCurrency(bad.startingBalance * bad.monthlyRate)}</strong>.<br>
+      Please increase that payment.
+    </p>
+  `;
+  return;
+}
       // run algorithm
       const { months, totalInterest, details } = debtSnowball(entries);
       const initialSum = entries.reduce((s, d) => s + d.startingBalance, 0);
