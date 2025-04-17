@@ -70,4 +70,52 @@ body {
   .error {
     color: #b00020;
   }
-  
+  /* Style for all our calculator forms */
+.calculator form {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1em;
+  border-radius: 4px;
+  margin-bottom: 2em;
+}
+
+/* Layout each debt-entry as three columns: balance, APR, payment */
+.debt-entry {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Stack label + input vertically */
+.debt-entry label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+/* Stretch inputs to full width of their grid cell */
+.debt-entry input {
+  width: 100%;
+  padding: 0.4em;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-top: 0.3em;
+}
+
+/* Style the submit button consistently */
+.calculator button[type="submit"],
+.calculator #calculateBtn {
+  background: #007acc;
+  color: #fff;
+  border: none;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.calculator button[type="submit"]:hover,
+.calculator #calculateBtn:hover {
+  background: #005fa3;
+}
