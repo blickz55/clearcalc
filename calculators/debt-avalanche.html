@@ -15,64 +15,50 @@
 
   <main>
     <section class="calculator">
-      <h3>Enter Your Debts (1–5)</h3>
+      <h2>Enter Your Debts</h2>
       <form id="avalancheForm">
-        <div class="form-grid debt-entries">
-          <!-- Debt #1 -->
+        <div id="debtContainer">
+          <!-- default 3 entries -->
           <div class="debt-entry">
-            <label>Debt 1 Balance ($):
-              <input type="number" name="balance" placeholder="e.g. 2000" required>
-            </label>
-            <label>APR (%):
-              <input type="number" step="0.01" name="apr" placeholder="e.g. 18.99" required>
-            </label>
-            <label>Min Payment ($):
-              <input type="number" name="minPayment" placeholder="e.g. 50" required>
-            </label>
+            <label>Debt 1 Balance ($):</label>
+            <input type="number" name="balance" placeholder="e.g. 2000" required>
+            <label>APR (%):</label>
+            <input type="number" step="0.01" name="apr" placeholder="e.g. 18.99" required>
+            <label>Min Payment ($):</label>
+            <input type="number" name="minPayment" placeholder="e.g. 50" required>
           </div>
-          <!-- Debt #2 -->
           <div class="debt-entry">
-            <label>Debt 2 Balance ($):
-              <input type="number" name="balance" placeholder="e.g. 1500" required>
-            </label>
-            <label>APR (%):
-              <input type="number" step="0.01" name="apr" placeholder="e.g. 16.50" required>
-            </label>
-            <label>Min Payment ($):
-              <input type="number" name="minPayment" placeholder="e.g. 40" required>
-            </label>
+            <label>Debt 2 Balance ($):</label>
+            <input type="number" name="balance" placeholder="e.g. 1500">
+            <label>APR (%):</label>
+            <input type="number" step="0.01" name="apr" placeholder="e.g. 16.50">
+            <label>Min Payment ($):</label>
+            <input type="number" name="minPayment" placeholder="e.g. 40">
           </div>
-          <!-- Debt #3 -->
           <div class="debt-entry">
-            <label>Debt 3 Balance ($):
-              <input type="number" name="balance" placeholder="e.g. 1200" required>
-            </label>
-            <label>APR (%):
-              <input type="number" step="0.01" name="apr" placeholder="e.g. 13.20" required>
-            </label>
-            <label>Min Payment ($):
-              <input type="number" name="minPayment" placeholder="e.g. 30" required>
-            </label>
+            <label>Debt 3 Balance ($):</label>
+            <input type="number" name="balance" placeholder="e.g. 1200">
+            <label>APR (%):</label>
+            <input type="number" step="0.01" name="apr" placeholder="e.g. 13.20">
+            <label>Min Payment ($):</label>
+            <input type="number" name="minPayment" placeholder="e.g. 30">
           </div>
         </div>
 
-        <button type="button" id="addDebtAvalanche" class="button">
-          + Add another debt
-        </button>
-
-        <button type="submit" class="button">
-          Calculate Avalanche
-        </button>
+        <div class="actions">
+          <button type="button" id="addDebtBtn">+ Add another debt</button>
+          <button type="submit">Calculate Avalanche</button>
+        </div>
       </form>
 
       <div id="avalancheResults" class="results"></div>
     </section>
 
-    <section class="about">
+    <section class="description">
       <h2>How It Works</h2>
       <p>
-        The debt‑avalanche method prioritizes debts by interest rate. You pay minimums on all but the highest‑rate balance,
-        throwing every extra dollar at that one until it’s gone, then move on to the next.
+        The debt‑avalanche method prioritizes debts by interest rate. You pay minimums on all but the highest‑rate 
+        debt, throwing every extra dollar at that one until it’s gone, then move on to the next.
       </p>
     </section>
   </main>
@@ -81,7 +67,24 @@
     <p>&copy; 2025 ClearCalc.io</p>
   </footer>
 
-  <script src="../js/lib/calculators.js"></script>
   <script src="../js/calculator.js"></script>
+  <script>
+    // dynamic "add another debt"
+    document.getElementById('addDebtBtn').addEventListener('click', () => {
+      const container = document.getElementById('debtContainer');
+      const count = container.children.length + 1;
+      const entry = document.createElement('div');
+      entry.className = 'debt-entry';
+      entry.innerHTML = `
+        <label>Debt ${count} Balance ($):</label>
+        <input type="number" name="balance" placeholder="e.g. 800">
+        <label>APR (%):</label>
+        <input type="number" step="0.01" name="apr" placeholder="e.g. 12.00">
+        <label>Min Payment ($):</label>
+        <input type="number" name="minPayment" placeholder="e.g. 25">
+      `;
+      container.appendChild(entry);
+    });
+  </script>
 </body>
 </html>
