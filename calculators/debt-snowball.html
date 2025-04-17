@@ -15,13 +15,75 @@
 
   <main>
     <section class="calculator">
-      <!--
-        You can add fields like:
-        - Debt 1 balance + min payment
-        - Debt 2 balance + min payment
-        - (Repeat up to 5 debts)
-      -->
-      <p><em>Coming soon: enter your debts and see your payoff schedule.</em></p>
+      <form id="snowballForm">
+        <h2>Enter Your Debts</h2>
+
+        <!-- Debt entries 1–5 -->
+        <!-- Copy/paste this block five times, updating the label text -->
+        <div class="debt-entry">
+          <label>Debt 1 Balance ($):
+            <input type="number" name="balance" placeholder="e.g. 2000" required>
+          </label>
+          <label>APR (%):
+            <input type="number" step="0.01" name="apr" placeholder="e.g. 18.99" required>
+          </label>
+          <label>Min Payment ($):
+            <input type="number" name="minPayment" placeholder="e.g. 50" required>
+          </label>
+        </div>
+
+        <div class="debt-entry">
+          <label>Debt 2 Balance ($):
+            <input type="number" name="balance" placeholder="e.g. 1500" required>
+          </label>
+          <label>APR (%):
+            <input type="number" step="0.01" name="apr" placeholder="e.g. 16.50" required>
+          </label>
+          <label>Min Payment ($):
+            <input type="number" name="minPayment" placeholder="e.g. 40" required>
+          </label>
+        </div>
+
+        <div class="debt-entry">
+          <label>Debt 3 Balance ($):
+            <input type="number" name="balance" placeholder="e.g. 1200" required>
+          </label>
+          <label>APR (%):
+            <input type="number" step="0.01" name="apr" placeholder="e.g. 13.20" required>
+          </label>
+          <label>Min Payment ($):
+            <input type="number" name="minPayment" placeholder="e.g. 30" required>
+          </label>
+        </div>
+
+        <div class="debt-entry">
+          <label>Debt 4 Balance ($):
+            <input type="number" name="balance" placeholder="e.g. 800" required>
+          </label>
+          <label>APR (%):
+            <input type="number" step="0.01" name="apr" placeholder="e.g. 12.00" required>
+          </label>
+          <label>Min Payment ($):
+            <input type="number" name="minPayment" placeholder="e.g. 25" required>
+          </label>
+        </div>
+
+        <div class="debt-entry">
+          <label>Debt 5 Balance ($):
+            <input type="number" name="balance" placeholder="e.g. 500" required>
+          </label>
+          <label>APR (%):
+            <input type="number" step="0.01" name="apr" placeholder="e.g. 10.00" required>
+          </label>
+          <label>Min Payment ($):
+            <input type="number" name="minPayment" placeholder="e.g. 20" required>
+          </label>
+        </div>
+
+        <button type="submit">Calculate Snowball</button>
+      </form>
+
+      <div id="snowballResults" class="results"><!-- Results appear here --></div>
     </section>
 
     <section class="description">
@@ -37,5 +99,8 @@
   <footer>
     <p>&copy; 2025 ClearCalc.io</p>
   </footer>
+
+  <!-- Load your calculator logic -->
+  <script src="../js/calculator.js"></script>
 </body>
 </html>
