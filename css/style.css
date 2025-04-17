@@ -370,3 +370,16 @@ button:hover {
 #avalancheChart.active {
   display: block !important;
 }
+/* hide all empty chart canvases until JS flips on “active” */
+#payoffChart,
+#snowballChart,
+#avalancheChart {
+  display: none !important;
+}
+
+/* once we’ve drawn, add “active” in JS to show */
+#payoffChart.active,
+#snowballChart.active,
+#avalancheChart.active {
+  display: block !important;
+}

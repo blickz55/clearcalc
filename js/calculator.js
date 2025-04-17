@@ -78,12 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'line',
             data: { /* … */ },
             
-            // ensure sharp Retina rendering
-            devicePixelRatio: window.devicePixelRatio || 1,
+       
+            
           
             options: {
               responsive: false,
               maintainAspectRatio: false,
+              devicePixelRatio: window.devicePixelRatio || 1,
               scales: {
                 x: {
                   display: true,                   // ← show the axis
