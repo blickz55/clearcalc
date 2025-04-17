@@ -1,18 +1,14 @@
-/* Avalanche Overrides */
-#avalancheForm {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing);
-  }
-  
-  /* One row per debt, three columns, alternating row bg */
-  #avalancheContainer {
+/* css/avalanche.css */
+
+/* Container & rows */
+#avalancheContainer {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--field-spacing);
     margin-bottom: var(--spacing);
   }
   
+  /* Each debt row */
   #avalancheContainer .debt-entry {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -26,32 +22,31 @@
     background: var(--surface);
   }
   
-  /* Labels stack, inputs full‑width except APR */
+  /* Labels above inputs */
   #avalancheContainer .debt-entry label {
-    display: flex;
-    flex-direction: column;
+    display: block;
     font-weight: 500;
     margin-bottom: 0.25rem;
   }
   
+  /* Inputs */
   #avalancheContainer .debt-entry input {
     width: 100%;
     padding: 0.75rem 1rem;
     border: 1px solid var(--border);
     border-radius: var(--border-radius);
     background: #f9f9f9;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    height: auto;
-    line-height: 1.4;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   }
   
   /* Slim down only the APR field */
   #avalancheContainer .debt-entry input[name="apr"] {
-    max-width: 80px;
     padding: 0.5rem 0.75rem;
+    line-height: 1.4;
+    max-width: 80px;
   }
   
-  /* Action buttons */
+  /* Actions row */
   #avalancheForm .actions {
     display: flex;
     gap: var(--field-spacing);
@@ -61,7 +56,7 @@
     flex: 1;
   }
   
-  /* Mobile: stack debts and buttons */
+  /* Mobile: stack into one column */
   @media (max-width: 600px) {
     #avalancheContainer {
       grid-template-columns: 1fr;
