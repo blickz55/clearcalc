@@ -14,9 +14,6 @@
     margin-bottom: var(--spacing);
   }
   
-  #avalancheForm .debt-entry {
-    display: contents; /* so each entry's labels/inputs flow into the grid */
-  }
   
   #avalancheForm .debt-entry label {
     display: flex;
@@ -46,6 +43,58 @@
   /* stack to one column on mobile */
   @media (max-width: 600px) {
     #avalancheContainer {
+      grid-template-columns: 1fr;
+    }
+  }
+  /* ──────────────────────────────────────────────────────────────── */
+/* Debt‑Avalanche: row backgrounds & slim APR field               */
+/* ──────────────────────────────────────────────────────────────── */
+#avalancheContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--field-spacing);
+    margin-bottom: var(--spacing);
+  }
+  
+  #avalancheContainer .debt-entry {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--field-spacing);
+    background: var(--surface-alt);
+    padding: var(--field-spacing);
+    border-radius: var(--border-radius);
+  }
+  
+  #avalancheContainer .debt-entry:nth-child(even) {
+    background: var(--surface);
+  }
+  
+  #avalancheContainer .debt-entry label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  #avalancheContainer .debt-entry input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    background: #f9f9f9;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  /* Slim down just the APR input */
+  #avalancheContainer .debt-entry input[name="apr"] {
+    padding: 0.5rem 0.75rem;  /* less vertical padding */
+    height: auto;            /* size to its content */
+    line-height: 1.4;        /* tighten text */
+    max-width: 80px;         /* same as Snowball */
+  }
+  
+  /* on mobile, stack each entry */
+  @media (max-width: 600px) {
+    #avalancheContainer .debt-entry {
       grid-template-columns: 1fr;
     }
   }
