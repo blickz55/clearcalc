@@ -59,9 +59,11 @@ nav a:hover {
 
 /* Hero Illustration */
 .hero {
+  position: relative;
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
+  align-items: center;
+  margin: 1rem 0; /* tightened from 2rem */
 }
 
 .hero img {
@@ -70,7 +72,26 @@ nav a:hover {
   height: auto;
 }
 
-/* Main */
+.hero-text {
+  position: absolute;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  max-width: 80%;
+}
+
+.hero-text h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.hero-text p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Main Layout */
 main {
   max-width: var(--max-content-width);
   margin: 0 auto 2rem;
@@ -95,6 +116,7 @@ main {
   margin-bottom: 0.5rem;
 }
 
+/* Unified CTA Buttons */
 .cta {
   display: inline-block;
   background: var(--primary-color);
@@ -102,14 +124,14 @@ main {
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
   text-decoration: none;
-  transition: background 0.2s;
+  transition: background 0.2s ease;
 }
 
 .cta:hover {
   background: var(--primary-hover);
 }
 
-/* Calculator containers (used in individual calculator pages) */
+/* Calculator Section (for individual pages) */
 section.calculator {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -144,6 +166,7 @@ section.calculator form {
   font-size: 1rem;
 }
 
+/* Calculate button (in calculators) */
 button {
   background: var(--primary-color);
   color: #fff;
@@ -152,7 +175,7 @@ button {
   font-size: 1rem;
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s ease;
   grid-column: 1 / -1;
   justify-self: start;
 }
@@ -161,20 +184,23 @@ button:hover {
   background: var(--primary-hover);
 }
 
+/* Results Box */
 .results {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   padding: var(--spacing);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   margin-top: var(--spacing);
 }
 
+/* Error Text */
 .error {
   color: var(--error-color);
   font-weight: bold;
 }
 
+/* Responsive */
 @media (max-width: 600px) {
   section.calculator form {
     grid-template-columns: 1fr;
