@@ -87,10 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }]
           },
           options: {
-            responsive: false,           // ← disable auto-resize
-            maintainAspectRatio: false,  // ← honor canvas width/height
+            responsive: false,
+            maintainAspectRatio: false,
             scales: {
-              x: { display: false },
+              x: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Month'
+                },
+                ticks: {
+                  // optionally skip some ticks if too crowded
+                  maxTicksLimit: 12
+                }
+              },
               y: {
                 ticks: {
                   callback: val => formatCurrency(val)
