@@ -11,7 +11,7 @@
   --spacing: 1rem;
 }
 
-/* Global Reset */
+/* Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -33,40 +33,18 @@ footer {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-header .header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing);
-  flex-wrap: wrap;
-  max-width: var(--max-content-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing);
-}
-
-.logo-link {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-}
-
-.logo {
-  height: 2.5rem;
-  width: auto;
-}
-
-.site-title h1 {
-  font-size: 1.75rem;
+header h1 {
+  font-size: 2rem;
   margin-bottom: 0.25rem;
 }
 
-.site-title p {
-  font-size: 1rem;
+header p {
   color: #555;
+  margin-bottom: 0.5rem;
 }
 
 nav {
-  margin-top: 0.5rem;
+  font-size: 0.95rem;
 }
 
 nav a {
@@ -79,9 +57,23 @@ nav a:hover {
   text-decoration: underline;
 }
 
+/* Hero Illustration */
+.hero {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.hero img {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+
+/* Main */
 main {
   max-width: var(--max-content-width);
-  margin: 2rem auto;
+  margin: 0 auto 2rem;
   padding: 0 var(--spacing);
 }
 
@@ -110,14 +102,14 @@ main {
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
   text-decoration: none;
-  transition: background 0.2s ease;
+  transition: background 0.2s;
 }
 
 .cta:hover {
   background: var(--primary-hover);
 }
 
-/* Calculator Section */
+/* Calculator containers (used in individual calculator pages) */
 section.calculator {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -132,7 +124,6 @@ section.calculator form {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-/* Form Field Group */
 .field,
 .debt-entry {
   display: flex;
@@ -153,7 +144,6 @@ section.calculator form {
   font-size: 1rem;
 }
 
-/* Button Styles */
 button {
   background: var(--primary-color);
   color: #fff;
@@ -162,7 +152,7 @@ button {
   font-size: 1rem;
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s;
   grid-column: 1 / -1;
   justify-self: start;
 }
@@ -171,23 +161,20 @@ button:hover {
   background: var(--primary-hover);
 }
 
-/* Results Box */
 .results {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   padding: var(--spacing);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   margin-top: var(--spacing);
 }
 
-/* Error Text */
 .error {
   color: var(--error-color);
   font-weight: bold;
 }
 
-/* Responsive */
 @media (max-width: 600px) {
   section.calculator form {
     grid-template-columns: 1fr;
