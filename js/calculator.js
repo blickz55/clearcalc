@@ -76,19 +76,26 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           payoffChart = new Chart(payoffCanvas.getContext('2d'), {
             type: 'line',
-            data: { /* … */ },
-            
-       
-            
-          
+            data: {
+              labels,
+              datasets: [{
+                label: 'Remaining Balance',
+                data: schedule,
+                fill: true,
+                tension: 0.3,
+                backgroundColor: 'rgba(0,122,204,0.1)',
+                borderColor: 'rgba(0,122,204,1)',
+                pointRadius: 0
+              }]
+            },
             options: {
+              // keep the canvas at the size you set in HTML/CSS:
               responsive: false,
               maintainAspectRatio: false,
-              devicePixelRatio: window.devicePixelRatio || 1,
               scales: {
                 x: {
-                  display: true,                   // ← show the axis
-                  title: { display: true, text: 'Month' },  
+                  display: true,
+                  title: { display: true, text: 'Month' },
                   ticks: { maxTicksLimit: labels.length }
                 },
                 y: {
@@ -96,11 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
               },
               plugins: {
-                tooltip: { callbacks: { label: ctx => formatCurrency(ctx.parsed.y) } },
+                tooltip: {
+                  callbacks: { label: ctx => formatCurrency(ctx.parsed.y) }
+                },
                 legend: { display: false }
               }
             }
           });
+          
           
         }
         payoffCanvas.classList.add('active');
