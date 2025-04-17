@@ -160,3 +160,58 @@ button:hover {
     flex-direction: column;
   }
 }
+:root {
+  /* ... your existing variables ... */
+  --cta-spacing: 1rem;
+}
+
+/* ————————————————
+   Site‑wide button utility
+   ———————————————— */
+.btn {
+  display: inline-block;
+  background: var(--primary-color);
+  color: #fff;
+  text-decoration: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--border-radius);
+  transition: background 0.2s ease;
+  font-weight: 500;
+}
+.btn:hover {
+  background: var(--primary-hover);
+}
+
+/* ————————————————
+   Header nav buttons
+   ———————————————— */
+header nav {
+  margin-top: var(--spacing);
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing);
+}
+
+/* ————————————————
+   Featured section CTA list
+   ———————————————— */
+.featured .cta-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing) 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cta-spacing);
+}
+.featured .cta-list li {
+  margin: 0;
+}
+
+/* Optional: tighten up the featured section */
+.featured {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+  margin-bottom: 2rem;
+}
