@@ -23,9 +23,10 @@
   
   /* 3) Labels above inputs */
   #avalancheContainer .debt-entry label {
-    display: block;
+    display: flex;
+    flex-direction: column;
     font-weight: 500;
-    margin-bottom: 0.25rem;
+    margin: 0 0 var(--field-spacing) 0;
   }
   
   /* 4) Inputs styling */
