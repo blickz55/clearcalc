@@ -122,67 +122,70 @@ document.addEventListener('DOMContentLoaded', () => {
 // … your existing imports & credit‑card code …
 
 document.addEventListener('DOMContentLoaded', () => {
-  // ───────────────── Debt‑Snowball Form ─────────────────
-  const debtContainer    = document.getElementById('debtContainer');
-  const addSnowballDebt  = document.getElementById('addSnowballDebt');
-  const snowballForm     = document.getElementById('snowballForm');
-  const snowballResults  = document.getElementById('snowballResults');
-  let debtCount = 0;
+  // … above this you already have creditCardPayoff logic …
 
-  function addDebtRow() {
-    debtCount++;
-    const row = document.createElement('div');
-    row.className = 'debt-entry';
-    row.innerHTML = `
-      <div class="field">
-        <label>Debt ${debtCount} Balance ($):</label>
-        <input type="number" name="balance" placeholder="e.g. 2000" required>
-      </div>
-      <div class="field">
-        <label>APR (%):</label>
-        <input type="number" step="0.01" name="apr" placeholder="e.g. 18.99" required>
-      </div>
-      <div class="field">
-        <label>Min Payment ($):</label>
-        <input type="number" name="minPayment" placeholder="e.g. 50" required>
-      </div>
+// ──────────────────────────────
+// Debt‑Snowball Form
+// ──────────────────────────────
+const snowballForm    = document.getElementById('snowballForm');
+const snowballResults = document.getElementById('snowballResults');
+const debtContainer   = document.getElementById('debtContainer');
+const addSnowballBtn  = document.getElementById('addSnowballDebt');
+let snowballCount     = 3;
+
+if (addSnowballBtn) {
+  addSnowballBtn.addEventListener('click', () => {
+    if (snowballCount >= 10) return;  // optional cap
+    snowballCount++;
+    const div = document.createElement('div');
+    div.className = 'debt-entry';
+    div.innerHTML = `
+      <label>Debt ${snowballCount} Balance ($): <input name="balance" type="number" placeholder="e.g. 1000"></label>
+      <label>APR (%):             <input name="apr"     type="number" step="0.01" placeholder="e.g. 12.00"></label>
+      <label>Min Payment ($):     <input name="minPayment" type="number" placeholder="e.g. 25"></label>
     `;
-    debtContainer.append(row);
-  }
+    debtContainer.append(div);
+  });
+}
 
-  // start with 3 debts
-  for (let i = 0; i < 3; i++) addDebtRow();
-  addSnowballDebt.addEventListener('click', addDebtRow);
-
+if (snowballForm) {
   snowballForm.addEventListener('submit', e => {
     e.preventDefault();
-    const entries = Array.from(debtContainer.querySelectorAll('.debt-entry'))
-      .map((row, idx) => {
-        const bal  = parseFloat(row.querySelector('input[name="balance"]').value);
-        const apr  = parseFloat(row.querySelector('input[name="apr"]').value);
-        const minP = parseFloat(row.querySelector('input[name="minPayment"]').value);
-        return isNaN(bal)||isNaN(apr)||isNaN(minP)
-          ? null
-          : { id: idx+1, startingBalance: bal, monthlyRate: apr/1200, minPayment: minP };
-      })
-      .filter(x => x);
+    const entries = Array.from(
+      debtContainer.querySelectorAll('.debt-entry')
+    )
+    .map((row, i) => {
+      const bal  = parseFloat(row.querySelector('input[name="balance"]').value);
+      const apr  = parseFloat(row.querySelector('input[name="apr"]').value);
+      const minP = parseFloat(row.querySelector('input[name="minPayment"]').value);
+      return (isNaN(bal)||isNaN(apr)||isNaN(minP))
+        ? null
+        : { id: i+1, startingBalance: bal, monthlyRate: apr/1200, minPayment: minP };
+    })
+    .filter(x => x);
+
     if (!entries.length) {
       snowballResults.innerHTML = '<p class="error">Please enter at least one valid debt.</p>';
       return;
     }
+
     const { months, totalInterest, details } = debtSnowball(entries);
     snowballResults.innerHTML = `
       <p>
-        All debts paid in <strong>${months}</strong> month${months===1?'':'s'}.<br>
+        All debts paid in <strong>${months}</strong> month${months===1?'':'s'}<br>
         Total interest paid: <strong>${formatCurrency(totalInterest)}</strong>
       </p>
       <ul>
-        ${details.map(d =>
-           `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`
-         ).join('')}
+        ${details.map(d=>
+          `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`
+        ).join('')}
       </ul>
     `;
   });
+}
+
+// … now your avalanche code follows …
+
 
   // … your avalanche logic follows …
 });
