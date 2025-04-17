@@ -15,74 +15,73 @@
 
   <main>
     <section class="calculator">
-      <form id="snowballForm" class="snowball-form">
-        <h2>Enter Your Debts (1–5)</h2>
-
-        <div class="debt-entry">
-          <label>Debt 1 Balance ($):</label>
-          <input type="number" name="balance" placeholder="e.g. 2000">
-          <label>APR (%):</label>
-          <input type="number" name="apr" step="0.01" placeholder="e.g. 18.99">
-          <label>Min Payment ($):</label>
-          <input type="number" name="minPayment" placeholder="e.g. 50">
+      <h3>Enter Your Debts (1–5)</h3>
+      <form id="snowballForm">
+        <div class="form-grid debt-entries">
+          <!-- Debt #1 -->
+          <div class="debt-entry">
+            <label>Debt 1 Balance ($):
+              <input type="number" name="balance" placeholder="e.g. 2000" required>
+            </label>
+            <label>APR (%):
+              <input type="number" step="0.01" name="apr" placeholder="e.g. 18.99" required>
+            </label>
+            <label>Min Payment ($):
+              <input type="number" name="minPayment" placeholder="e.g. 50" required>
+            </label>
+          </div>
+          <!-- Debt #2 -->
+          <div class="debt-entry">
+            <label>Debt 2 Balance ($):
+              <input type="number" name="balance" placeholder="e.g. 1500" required>
+            </label>
+            <label>APR (%):
+              <input type="number" step="0.01" name="apr" placeholder="e.g. 16.50" required>
+            </label>
+            <label>Min Payment ($):
+              <input type="number" name="minPayment" placeholder="e.g. 40" required>
+            </label>
+          </div>
+          <!-- Debt #3 -->
+          <div class="debt-entry">
+            <label>Debt 3 Balance ($):
+              <input type="number" name="balance" placeholder="e.g. 1200" required>
+            </label>
+            <label>APR (%):
+              <input type="number" step="0.01" name="apr" placeholder="e.g. 13.20" required>
+            </label>
+            <label>Min Payment ($):
+              <input type="number" name="minPayment" placeholder="e.g. 30" required>
+            </label>
+          </div>
         </div>
 
-        <div class="debt-entry">
-          <label>Debt 2 Balance ($):</label>
-          <input type="number" name="balance" placeholder="e.g. 1500">
-          <label>APR (%):</label>
-          <input type="number" name="apr" step="0.01" placeholder="e.g. 16.50">
-          <label>Min Payment ($):</label>
-          <input type="number" name="minPayment" placeholder="e.g. 40">
-        </div>
+        <button type="button" id="addDebtSnowball" class="button">
+          + Add another debt
+        </button>
 
-        <div class="debt-entry">
-          <label>Debt 3 Balance ($):</label>
-          <input type="number" name="balance" placeholder="e.g. 1200">
-          <label>APR (%):</label>
-          <input type="number" name="apr" step="0.01" placeholder="e.g. 13.20">
-          <label>Min Payment ($):</label>
-          <input type="number" name="minPayment" placeholder="e.g. 30">
-        </div>
-
-        <div class="debt-entry">
-          <label>Debt 4 Balance ($):</label>
-          <input type="number" name="balance" placeholder="e.g. 800">
-          <label>APR (%):</label>
-          <input type="number" name="apr" step="0.01" placeholder="e.g. 12.00">
-          <label>Min Payment ($):</label>
-          <input type="number" name="minPayment" placeholder="e.g. 25">
-        </div>
-
-        <div class="debt-entry">
-          <label>Debt 5 Balance ($):</label>
-          <input type="number" name="balance" placeholder="e.g. 500">
-          <label>APR (%):</label>
-          <input type="number" name="apr" step="0.01" placeholder="e.g. 10.00">
-          <label>Min Payment ($):</label>
-          <input type="number" name="minPayment" placeholder="e.g. 20">
-        </div>
-
-        <button type="submit">Calculate Snowball</button>
+        <button type="submit" class="button">
+          Calculate Snowball
+        </button>
       </form>
 
       <div id="snowballResults" class="results"></div>
     </section>
 
-    <section class="description">
+    <section class="about">
       <h2>How It Works</h2>
       <p>
-        The debt snowball method has you pay off the smallest balance first.
-        Once it’s paid, you roll that payment into the next-smallest debt,
-        accelerating your payoff journey.
+        The debt snowball method has you pay off the smallest balance first. Once it’s paid, you roll that
+        payment into the next‑smallest debt, accelerating your payoff journey.
       </p>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 ClearCalc.io</p>
+    <p>&copy; 2025 ClearCalc.io</p>
   </footer>
 
+  <script src="../js/lib/calculators.js"></script>
   <script src="../js/calculator.js"></script>
 </body>
 </html>
