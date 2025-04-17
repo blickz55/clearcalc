@@ -3,7 +3,7 @@
   --primary-hover: #005fa3;
   --background: #f4f4f4;
   --surface: #ffffff;
-  --surface-alt: #e8eef8;        /* stronger contrast */
+  --surface-alt: #e8eef8;        /* alternating row shade */
   --border: #dddddd;
   --text-color: #333333;
   --error-color: #b00020;
@@ -11,15 +11,15 @@
   --border-radius: 8px;
   --spacing: 1rem;
   --field-spacing: 0.5rem;
+  --cta-spacing: 1rem;
 }
 
-/* Global Reset */
+/* ─────────────────────────────────────── Global Reset ── */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 body {
   font-family: 'Inter', sans-serif;
   background: var(--background);
@@ -27,54 +27,120 @@ body {
   line-height: 1.6;
 }
 
-header,
-footer {
+/* ─────────────────────────────────────── Header & Nav ── */
+header {
   background: var(--surface);
   text-align: center;
   padding: var(--spacing) 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-
-main {
-  max-width: var(--max-content-width);
-  margin: 2rem auto;
-  padding: 0 var(--spacing);
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+header nav {
+  margin-top: var(--spacing);
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing);
 }
 
-/* BUTTON-LIKE LINKS */
+/* ─────────────────────────────────────── Hero on index.html ── */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--spacing);
+  background: var(--surface);
+  padding: calc(var(--spacing) * 2);
+  margin: var(--spacing) 0;
+  border-radius: var(--border-radius);
+}
+.hero-text h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.hero-text p {
+  font-size: 1.1rem;
+}
+.hero-image img {
+  width: 100%;
+  max-width: 500px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ─────────────────────────────────────── Featured CTAs ── */
+.featured {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+  margin-bottom: var(--spacing);
+}
+.featured .cta-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing) 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cta-spacing);
+}
+.featured .cta-list li {
+  margin: 0;
+}
+
+/* ─────────────────────────────────────── Button Utility ── */
+.btn,
 a.cta {
   display: inline-block;
   background: var(--primary-color);
   color: #fff;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--border-radius);
   text-decoration: none;
-  transition: background 0.2s;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--border-radius);
+  transition: background 0.2s ease;
+  font-weight: 500;
 }
+.btn:hover,
 a.cta:hover {
   background: var(--primary-hover);
 }
 
-/* Calculator Section */
+/* ─────────────────────────────────────── Main & Footer ── */
+main {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing);
+}
+footer {
+  background: var(--surface);
+  text-align: center;
+  padding: var(--spacing) 0;
+  margin-top: var(--spacing);
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* ─────────────────────────────────────── Calculator Sections ── */
 section.calculator {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   padding: var(--spacing);
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing);
 }
-
 section.calculator h2 {
   margin-bottom: var(--field-spacing);
 }
 
-/* Debt Rows Container */
+/* debt-entry rows container */
 #debtContainer {
   display: flex;
   flex-direction: column;
   gap: var(--field-spacing);
 }
-
 .debt-entry {
   display: flex;
   align-items: center;
@@ -82,20 +148,17 @@ section.calculator h2 {
   padding: var(--field-spacing);
   border-radius: 4px;
 }
-
 .debt-entry:nth-child(odd) {
   background: var(--surface-alt);
 }
 .debt-entry:nth-child(even) {
   background: var(--surface);
 }
-
 .debt-entry label {
   flex: 0 0 auto;
   font-size: 0.95rem;
   white-space: nowrap;
 }
-
 .debt-entry input {
   flex: 1 1 auto;
   padding: 0.5rem;
@@ -103,13 +166,12 @@ section.calculator h2 {
   border-radius: 4px;
   font-size: 1rem;
 }
-
-/* APR fields stay narrower */
+/* APR inputs narrower */
 .debt-entry input[name="apr"] {
   flex: 0 0 80px;
 }
 
-/* Action buttons under form */
+/* form action buttons */
 .actions {
   display: flex;
   gap: var(--field-spacing);
@@ -119,7 +181,7 @@ section.calculator h2 {
   flex: 1;
 }
 
-/* Button Styles */
+/* generic button style */
 button {
   background: var(--primary-color);
   color: #fff;
@@ -134,7 +196,7 @@ button:hover {
   background: var(--primary-hover);
 }
 
-/* Results Box */
+/* result & error */
 .results {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -143,143 +205,28 @@ button:hover {
   box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   margin-top: var(--spacing);
 }
-
-/* Error Text */
 .error {
   color: var(--error-color);
   font-weight: bold;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .debt-entry {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .actions {
-    flex-direction: column;
-  }
-}
-:root {
-  /* ... your existing variables ... */
-  --cta-spacing: 1rem;
-}
-
-/* ————————————————
-   Site‑wide button utility
-   ———————————————— */
-.btn {
-  display: inline-block;
-  background: var(--primary-color);
-  color: #fff;
-  text-decoration: none;
-  padding: 0.75rem 1.25rem;
-  border-radius: var(--border-radius);
-  transition: background 0.2s ease;
-  font-weight: 500;
-}
-.btn:hover {
-  background: var(--primary-hover);
-}
-
-/* ————————————————
-   Header nav buttons
-   ———————————————— */
-header nav {
-  margin-top: var(--spacing);
-  display: flex;
-  justify-content: center;
-  gap: var(--spacing);
-}
-
-/* ————————————————
-   Featured section CTA list
-   ———————————————— */
-.featured .cta-list {
-  list-style: none;
-  padding: 0;
-  margin: var(--spacing) 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--cta-spacing);
-}
-.featured .cta-list li {
-  margin: 0;
-}
-
-/* Optional: tighten up the featured section */
-.featured {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--border-radius);
-  padding: var(--spacing);
-  margin-bottom: 2rem;
-}
-/* ───────────────────────────────────────────────── Hero Section ── */
-.hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: var(--spacing);
-  background: var(--surface);
-  padding: calc(var(--spacing) * 2);
-  margin: var(--spacing) 0;
-  border-radius: var(--border-radius);
-}
-
-.hero-text h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.hero-text p {
-  font-size: 1.1rem;
-  color: var(--text-color);
-}
-
-.hero-image img {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
-/* Mobile stack */
+/* ─────────────────────────────────────── Responsive ── */
 @media (max-width: 768px) {
   .hero {
     grid-template-columns: 1fr;
     text-align: center;
   }
   .hero-image {
-    order: -1; /* image first on mobile */
+    order: -1;
   }
 }
-
-/* ──────────────────────────────────── Featured CTA List (already added above) ── */
-.featured .cta-list {
-  list-style: none;
-  padding: 0;
-  margin: var(--spacing) 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing);
-}
-.featured .cta-list li {
-  margin: 0;
-}
-
-/* ───────────────────────────────────────────────── Button Utility ── */
-.btn {
-  display: inline-block;
-  background: var(--primary-color);
-  color: #fff;
-  text-decoration: none;
-  padding: 0.75rem 1.25rem;
-  border-radius: var(--border-radius);
-  transition: background 0.2s ease;
-  font-weight: 500;
-}
-.btn:hover {
-  background: var(--primary-hover);
+@media (max-width: 600px) {
+  section.calculator form,
+  .actions {
+    flex-direction: column;
+  }
+  .debt-entry {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
