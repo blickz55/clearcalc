@@ -47,17 +47,15 @@
           <label for="payment">Monthly Payment ($):</label>
           <input type="number" id="payment" name="payment" placeholder="e.g. 200" required />
         </div>
-
         <div class="actions">
           <button type="submit" class="btn">Calculate Payoff</button>
         </div>
       </form>
 
-      <!-- results go here -->
       <div id="payoffResults" class="results"></div>
 
-      <!-- chart goes here -->
-      <canvas id="payoffChart" style="max-width:100%; height:300px; margin-top:1rem;"></canvas>
+      <!--  ← here’s our canvas for the payoff‐schedule chart →  -->
+      <canvas id="payoffChart" style="width:100%;max-width:600px;margin:2rem auto 0;"></canvas>
     </section>
   </main>
 
@@ -65,9 +63,9 @@
     <p>&copy; 2025 ClearCalc.io — <a href="../index.html">Home</a></p>
   </footer>
 
-  <!-- 1) Load Chart.js -->
+  <!-- Chart.js from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- 2) Your main logic as an ES module -->
+  <!-- our logic (module) -->
   <script type="module" src="../js/calculator.js"></script>
 </body>
 </html>
