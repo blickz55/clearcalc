@@ -283,143 +283,133 @@ if (bad) {
 
 
   // ─────────────────────────────────── DEBT AVALANCHE ──────────────────
-  const avalancheForm    = document.getElementById('avalancheForm');
-  const avContainer      = document.getElementById('avalancheContainer');
-  const addAvalancheBtn  = document.getElementById('addAvalancheDebt');
-  const avalancheResults = document.getElementById('avalancheResults');
-  const avalancheCanvas  = document.getElementById('avalancheChart');
-  let avalancheChart, avalancheCount = 3;
+const avalancheForm    = document.getElementById('avalancheForm');
+const avContainer      = document.getElementById('avalancheContainer');
+const addAvalancheBtn  = document.getElementById('addAvalancheDebt');
+const avalancheResults = document.getElementById('avalancheResults');
+const avalancheCanvas  = document.getElementById('avalancheChart');
+let avalancheChart, avalancheCount = 3;
 
-  if (avalancheForm) {
-    addAvalancheBtn.addEventListener('click', () => {
-      if (avalancheCount >= 10) return;
-      avalancheCount++;
-      const entry = document.createElement('div');
-      entry.className = 'debt-entry';
-      entry.innerHTML = `
-        <label>Debt ${avalancheCount} Balance ($):
-          <input name="balance" type="number" placeholder="e.g. 1000">
-        </label>
-        <label>APR (%):
-          <input name="apr" type="number" step="0.01" placeholder="e.g. 12.00">
-        </label>
-        <label>Min Payment ($):
-          <input name="minPayment" type="number" placeholder="e.g. 25">
-        </label>`;
-      avContainer.append(entry);
-    });
+if (avalancheForm) {
+  // add another debt
+  addAvalancheBtn.addEventListener('click', () => {
+    if (avalancheCount >= 10) return;
+    avalancheCount++;
+    const div = document.createElement('div');
+    div.className = 'debt-entry';
+    div.innerHTML = `
+      <label>Debt ${avalancheCount} Balance ($):
+        <input name="balance" type="number" placeholder="e.g. 1000">
+      </label>
+      <label>APR (%):
+        <input name="apr" type="number" step="0.01" placeholder="e.g. 12.00">
+      </label>
+      <label>Min Payment ($):
+        <input name="minPayment" type="number" placeholder="e.g. 25">
+      </label>`;
+    avContainer.append(div);
+  });
 
-    avalancheForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const entries = Array.from(avContainer.children)
-        .map((row, i) => {
-          const b = parseFloat(row.querySelector('input[name="balance"]').value);
-          const a = parseFloat(row.querySelector('input[name="apr"]').value);
-          const m = parseFloat(row.querySelector('input[name="minPayment"]').value);
-          return isNaN(b) || isNaN(a) || isNaN(m)
-            ? null
-            : { id: i + 1, startingBalance: b, monthlyRate: a / 1200, minPayment: m };
-        })
-        .filter(x => x);
+  avalancheForm.addEventListener('submit', e => {
+    e.preventDefault();
 
-      if (!entries.length) {
-        avalancheResults.innerHTML = '<p class="error">Please enter at least one valid debt.</p>';
-        return;
-      }
+    // gather entries
+    const entries = Array.from(avContainer.children)
+      .map((row,i) => {
+        const b = parseFloat(row.querySelector('input[name="balance"]').value);
+        const a = parseFloat(row.querySelector('input[name="apr"]').value);
+        const m = parseFloat(row.querySelector('input[name="minPayment"]').value);
+        return isNaN(b)||isNaN(a)||isNaN(m)
+          ? null
+          : { id:i+1, startingBalance:b, monthlyRate:a/1200, minPayment:m };
+      })
+      .filter(x=>x);
 
-      // ensure total min payments > total first‑month interest
-      const totalInterestMonth1 = entries.reduce((sum, d) =>
-        sum + d.startingBalance * d.monthlyRate, 0);
-      const totalMinPayments    = entries.reduce((sum, d) =>
-        sum + d.minPayment, 0);
-      if (totalMinPayments <= totalInterestMonth1) {
-        avalancheResults.innerHTML = `
-          <p class="error">
-            Your combined payments ${formatCurrency(totalMinPayments)} 
-            don’t cover first month’s interest ${formatCurrency(totalInterestMonth1)}.
-          </p>`;
-        return;
-      }
+    if (!entries.length) {
+      avalancheResults.innerHTML = '<p class="error">Please enter at least one valid debt.</p>';
+      return;
+    }
 
-      // run avalanche
-      const { months, totalInterest, details } = debtAvalanche(entries);
-      const initialSum = entries.reduce((s, d) => s + d.startingBalance, 0);
-      const totalPaid  = initialSum + totalInterest;
-
+    // first‑month combined interest check
+    const totalInterestMonth1 = entries.reduce((sum,d)=> sum + d.startingBalance*d.monthlyRate, 0);
+    const totalMinPayments    = entries.reduce((sum,d)=> sum + d.minPayment, 0);
+    if (totalMinPayments <= totalInterestMonth1) {
       avalancheResults.innerHTML = `
-        <p>
-          All debts paid in <strong>${months}</strong> month${months === 1 ? '' : 's'}<br>
-          Total interest paid: <strong>${formatCurrency(totalInterest)}</strong><br>
-          Total amount paid: <strong>${formatCurrency(totalPaid)}</strong>
-        </p>
-        <ul>
-          ${details.map(d =>
-            `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`
-          ).join('')}
-        </ul>`;
+        <p class="error">
+          Your combined payments <strong>${formatCurrency(totalMinPayments)}</strong> 
+          don’t cover first month’s interest <strong>${formatCurrency(totalInterestMonth1)}</strong>.<br>
+          Please increase your payments.
+        </p>`;
+      return;
+    }
 
-      // build schedule
-      const sim = entries.slice().sort((a, b) => b.monthlyRate - a.monthlyRate);
-      const schedule = [];
-      let guard2 = 0;
-      while (sim.length && guard2++ < 1000) {
-        schedule.push(sim.reduce((s, d) => s + d.startingBalance, 0));
-        sim.slice(1).forEach(d => {
-          d.startingBalance += d.startingBalance * d.monthlyRate - d.minPayment;
-        });
-        const p = sim[0];
-        const avail = sim.reduce((s, d) => s + d.minPayment, 0);
-        p.startingBalance += p.startingBalance * p.monthlyRate - avail;
-        if (p.startingBalance <= 0) sim.shift();
-      }
+    // run avalanche algorithm
+    const { months, totalInterest, details } = debtAvalanche(entries);
+    const initialSum = entries.reduce((s,d)=> s+d.startingBalance, 0);
+    const totalPaid  = initialSum + totalInterest;
 
-      // render chart
-      if (avalancheCanvas) {
-        const labels = schedule.map((_, i) => `Mo ${i + 1}`);
-        if (avalancheChart) {
-          avalancheChart.data.labels = labels;
-          avalancheChart.data.datasets[0].data = schedule;
-          avalancheChart.update();
-        } else {
-          avalancheChart = new Chart(
-            avalancheCanvas.getContext('2d'),
-            {
-              type: 'line',
-              data: {
-                labels,
-                datasets: [{
-                  label: 'Total Remaining',
-                  data: schedule,
-                  fill: true,
-                  tension: 0.3,
-                  backgroundColor: 'rgba(0,122,204,0.1)',
-                  borderColor: 'rgba(0,122,204,1)',
-                  pointRadius: 0
-                }]
-              },
-              options: {
-                responsive: false,
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    display: true,
-                    title: { display: true, text: 'Month' },
-                    ticks: { maxTicksLimit: labels.length }
-                  },
-                  y: { ticks: { callback: v => formatCurrency(v) } }
-                },
-                plugins: {
-                  tooltip: {
-                    callbacks: { label: ctx => formatCurrency(ctx.parsed.y) }
-                  },
-                  legend: { display: false }
-                }
-              }
+    avalancheResults.innerHTML = `
+      <p>
+        All debts paid in <strong>${months}</strong> month${months===1?'':'s'}<br>
+        Total interest paid: <strong>${formatCurrency(totalInterest)}</strong><br>
+        Total amount paid: <strong>${formatCurrency(totalPaid)}</strong>
+      </p>
+      <ul>
+        ${details.map(d=>
+          `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`
+        ).join('')}
+      </ul>`;
+
+    // build schedule
+    const sim = entries.slice().sort((a,b)=>b.monthlyRate - a.monthlyRate);
+    const schedule = [];
+    let guard=0;
+    while (sim.length && guard++ < 1000) {
+      schedule.push(sim.reduce((s,d)=> s + d.startingBalance, 0));
+      sim.slice(1).forEach(d=>{
+        d.startingBalance += d.startingBalance*d.monthlyRate - d.minPayment;
+      });
+      const p = sim[0];
+      const avail = sim.reduce((s,d)=> s + d.minPayment, 0);
+      p.startingBalance += p.startingBalance*p.monthlyRate - avail;
+      if (p.startingBalance <= 0) sim.shift();
+    }
+
+    // render chart
+    if (avalancheCanvas) {
+      const labels = schedule.map((_,i)=>`Mo ${i+1}`);
+      if (avalancheChart) {
+        avalancheChart.data.labels = labels;
+        avalancheChart.data.datasets[0].data = schedule;
+        avalancheChart.update();
+      } else {
+        avalancheChart = new Chart(avalancheCanvas.getContext('2d'), {
+          type:'line',
+          data:{ labels, datasets:[{
+            label:'Total Remaining',
+            data: schedule,
+            fill:true,
+            tension:0.3,
+            backgroundColor:'rgba(0,122,204,0.1)',
+            borderColor:'rgba(0,122,204,1)',
+            pointRadius:0
+          }]},
+          options:{
+            responsive:false,
+            maintainAspectRatio:false,
+            scales:{
+              x:{ display:true, title:{display:true,text:'Month'}, ticks:{maxTicksLimit:labels.length} },
+              y:{ ticks:{callback:v=>formatCurrency(v)} }
+            },
+            plugins:{
+              tooltip:{ callbacks:{ label:ctx=>formatCurrency(ctx.parsed.y) } },
+              legend:{ display:false }
             }
-          );
-        }
-        avalancheCanvas.classList.add('active');
+          }
+        });
       }
-    });
-  }
+      avalancheCanvas.classList.add('active');
+    }
+  });
+}
 });

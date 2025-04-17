@@ -1,0 +1,54 @@
+/* Tidy the avalanche form like the others */
+#avalancheForm #avalancheContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--field-spacing);
+    margin-bottom: var(--spacing);
+  }
+  #avalancheContainer .debt-entry {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--field-spacing);
+    padding: var(--field-spacing);
+    border-radius: var(--border-radius);
+    background: var(--surface-alt);
+  }
+  #avalancheContainer .debt-entry:nth-child(even) {
+    background: var(--surface);
+  }
+  
+  /* Buttons */
+  #avalancheForm .actions {
+    display: flex;
+    gap: var(--field-spacing);
+    margin-top: var(--spacing);
+  }
+  #avalancheForm .actions button {
+    flex: 1;
+  }
+  
+  /* Results styling */
+  #avalancheResults p {
+    margin-bottom: var(--field-spacing);
+  }
+  #avalancheResults ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  #avalancheResults ul li {
+    margin-left: 1rem;
+    position: relative;
+  }
+  #avalancheResults ul li::before {
+    content: "–";
+    position: absolute;
+    left: -1rem;
+    color: var(--primary-color);
+  }
+  
+  /* Chart */
+  #avalancheChart.active {
+    display: block !important;
+  }
+  
