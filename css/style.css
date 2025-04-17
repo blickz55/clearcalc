@@ -271,3 +271,50 @@ button:hover {
     grid-template-columns: 1fr;
   }
 }
+/* ──────────────────────────────────────────────────────────────── */
+/* Enhanced Form Inputs                                          */
+/* ──────────────────────────────────────────────────────────────── */
+
+.field input,
+.debt-entry input {
+  background: #f9f9f9;                             /* light gray fill */
+  border: 1px solid #ccc;                          /* soft border */
+  padding: 0.75rem 1rem;                           /* generous padding */
+  border-radius: var(--border-radius);             /* consistent rounding */
+  transition: border-color 0.2s ease,
+              box-shadow    0.2s ease,
+              background   0.2s ease;
+}
+
+/* subtle “lift” on hover */
+.field input:hover,
+.debt-entry input:hover {
+  background: #fff;
+}
+
+/* big, friendly focus ring */
+.field input:focus,
+.debt-entry input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.3);    /* match --primary-color */
+}
+
+/* lighter placeholder text */
+.field input::placeholder,
+.debt-entry input::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+/* align labels above inputs for clarity */
+.field,
+.debt-entry {
+  flex-direction: column;
+}
+
+.field label,
+.debt-entry label {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
