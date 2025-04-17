@@ -1,6 +1,6 @@
 /* css/avalanche.css */
 
-/* 1) Container: stack each debt-entry in a column */
+/* 1) Stack each debt-entry in a column */
 #avalancheContainer {
     display: flex;
     flex-direction: column;
@@ -8,7 +8,7 @@
     margin-bottom: var(--spacing);
   }
   
-  /* 2) Each row: a 3‑col grid with alternating backgrounds */
+  /* 2) Each row: 3‑col grid with alternating backgrounds */
   #avalancheContainer .debt-entry {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -38,7 +38,7 @@
     transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   }
   
-  /* 5) Slim down just the APR field */
+  /* 5) Slim down only the APR field */
   #avalancheContainer .debt-entry input[name="apr"] {
     max-width: 80px;
     padding: 0.5rem 0.75rem;
