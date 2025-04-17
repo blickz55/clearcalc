@@ -32,11 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const { months, totalInterest } = creditCardPayoff(balance, apr, payment);
+      const totalPaid = months * payment;
 
       payoffResults.innerHTML = `
         <p>
           It will take <strong>${months}</strong> month${months === 1 ? '' : 's'} to pay off your balance.<br>
-          Total interest paid: <strong>${formatCurrency(totalInterest)}</strong>
+          Total interest paid: <strong>${formatCurrency(totalInterest)}</strong><br>
+          Total amount paid: <strong>${formatCurrency(totalPaid)}</strong>
         </p>
       `;
     });
@@ -69,10 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const { months, totalInterest, details } = debtSnowball(entries);
       snowballResults.innerHTML = `
-        <p>All debts paid in <strong>${months}</strong> month${months===1?'':'s'}<br>
-        Total interest paid: <strong>${formatCurrency(totalInterest)}</strong></p>
+        <p>
+          All debts paid in <strong>${months}</strong> month${months===1?'':'s'}<br>
+          Total interest paid: <strong>${formatCurrency(totalInterest)}</strong>
+        </p>
         <ul>
-          ${details.map(d=>`<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`).join('')}
+          ${details
+            .map(d => `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`)
+            .join('')}
         </ul>
       `;
     });
@@ -105,10 +111,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const { months, totalInterest, details } = debtAvalanche(entries);
       avalancheResults.innerHTML = `
-        <p>All debts paid in <strong>${months}</strong> month${months===1?'':'s'}<br>
-        Total interest paid: <strong>${formatCurrency(totalInterest)}</strong></p>
+        <p>
+          All debts paid in <strong>${months}</strong> month${months===1?'':'s'}<br>
+          Total interest paid: <strong>${formatCurrency(totalInterest)}</strong>
+        </p>
         <ul>
-          ${details.map(d=>`<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`).join('')}
+          ${details
+            .map(d => `<li>Debt ${d.id}: ${d.payoffMonth} mo, interest ${formatCurrency(d.interestPaid)}</li>`)
+            .join('')}
         </ul>
       `;
     });
