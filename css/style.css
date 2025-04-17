@@ -1,118 +1,117 @@
-/* =============================
-   Global & Reset Styles
-   ============================= */
-   * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+:root {
+  --primary-color: #007acc;
+  --primary-hover: #005fa3;
+  --background: #f4f4f4;
+  --surface: #ffffff;
+  --border: #dddddd;
+  --text-color: #333333;
+  --error-color: #b00020;
+  --max-content-width: 900px;
+  --border-radius: 8px;
+  --spacing: 1rem;
+}
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--background);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+header,
+footer {
+  background: var(--surface);
+  text-align: center;
+  padding: var(--spacing) 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+main {
+  max-width: var(--max-content-width);
+  margin: 2rem auto;
+  padding: 0 var(--spacing);
+}
+
+/* Calculator Section */
+section.calculator {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+  margin-bottom: 2rem;
+}
+
+section.calculator form {
+  display: grid;
+  gap: var(--spacing);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* Form Field Group */
+.field,
+.debt-entry {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label,
+.debt-entry label {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.field input,
+.debt-entry input {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Button Styles */
+button {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+button:hover {
+  background: var(--primary-hover);
+}
+
+/* Results Box */
+.results {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  margin-top: var(--spacing);
+}
+
+/* Error Text */
+.error {
+  color: var(--error-color);
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  section.calculator form {
+    grid-template-columns: 1fr;
   }
-  
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background: #f4f4f4;
-    color: #333;
-  }
-  
-  header, footer {
-    background: #fff;
-    padding: 1em;
-    text-align: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-  
-  main {
-    max-width: 800px;
-    margin: 2em auto;
-    padding: 0 1em;
-  }
-  
-  /* =============================
-     Calculator Container
-     ============================= */
-  section.calculator {
-    background: #fff;
-    border-radius: 6px;
-    padding: 1.5em;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    margin-bottom: 2em;
-  }
-  
-  /* =============================
-     Snowball Form Layout
-     ============================= */
-  .snowball-form {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-  
-  .snowball-form h2 {
-    grid-column: 1 / -1;
-    margin-bottom: 0.5em;
-  }
-  
-  .debt-entry {
-    background: #fafafa;
-    border: 1px solid #e2e2e2;
-    border-radius: 4px;
-    padding: 1em;
-  }
-  
-  .debt-entry label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 0.25em;
-    font-size: 0.95rem;
-  }
-  
-  .debt-entry input {
-    width: 100%;
-    padding: 0.5em;
-    margin-bottom: 0.75em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  /* Submit button spans full width on desktop */
-  .snowball-form button[type="submit"] {
-    grid-column: 1 / -1;
-    padding: 0.75em;
-    background: #007acc;
-    color: #fff;
-    border: none;
-    font-size: 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .snowball-form button[type="submit"]:hover {
-    background: #005fa3;
-  }
-  
-  /* Results box */
-  .results {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 1em;
-    margin-top: 1.5em;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-  }
-  
-  /* Error text */
-  .error {
-    color: #b00020;
-    font-weight: bold;
-  }
-  
-  /* =============================
-     Responsive Adjustments
-     ============================= */
-  @media (max-width: 768px) {
-    .snowball-form {
-      grid-template-columns: 1fr;
-    }
-  }
-  
+}
