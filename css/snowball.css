@@ -43,7 +43,7 @@
   #debtContainer .debt-entry input[name="apr"] {
     padding: 0.75rem 1rem !important;
     line-height: 1.4 !important;
-    height: auto !important;
+    height: 2.75rem !important;
     max-width: none !important;
   }
   
