@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           });
         }
-        payoffCanvas.parentElement.classList.add('active');
+        payoffCanvas.classList.add('active');
       }
     });
   }
