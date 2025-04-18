@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Debt Snowball Calculator – ClearCalc</title>
+<meta name="description" content="Use the debt snowball method to pay off your smallest debts first and stay motivated. Free and easy.">
+<meta name="keywords" content="debt snowball calculator, debt payoff tool, smallest debt first, ClearCalc">
+<meta property="og:title" content="Debt Snowball Calculator – ClearCalc" />
+<meta property="og:description" content="Plan your debt snowball strategy with ClearCalc's free calculator." />
+<meta property="og:url" content="https://www.clearcalc.io/debt-snowball.html" />
+<meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/snowball.css" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DP2WDRPEP6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DP2WDRPEP6');
+</script></head>
+<body>
+  <header>
+    <h1>ClearCalc</h1>
+    <p>Free, easy-to-use calculators to help you crush debt and save on interest.</p>
+    <nav>
+      <a class="btn" href="credit-card-payoff.html">Credit Card Payoff</a>
+      <a class="btn" href="debt-snowball.html">Debt Snowball</a>
+      <a class="btn" href="debt-avalanche.html">Debt Avalanche</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Debt Snowball Calculator</h2>
+        <p>Plan your payoff order by tackling the smallest debt first.</p>
+        <a href="../index.html" class="btn" style="margin-top:1rem;">← Home</a>
+      </div>
+      <div class="hero-image">
+        <img src="../assets/snowball-hero.svg" alt="Illustration of a snowball rolling" />
+      </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="calculator">
+      <h2>Enter Your Debts</h2>
+      <form id="snowballForm">
+        <div id="debtContainer">
+          <!-- three initial debts -->
+          <div class="debt-entry">
+            <label>Debt 1 Balance ($):<input name="balance" type="number" placeholder="e.g. 2000" /></label>
+            <label>APR (%):<input name="apr" type="number" step="0.01" placeholder="e.g. 18.99" /></label>
+            <label>Min Payment ($):<input name="minPayment" type="number" placeholder="e.g. 50" /></label>
+          </div>
+          <div class="debt-entry">
+            <label>Debt 2 Balance ($):<input name="balance" type="number" placeholder="e.g. 1500" /></label>
+            <label>APR (%):<input name="apr" type="number" step="0.01" placeholder="e.g. 16.50" /></label>
+            <label>Min Payment ($):<input name="minPayment" type="number" placeholder="e.g. 40" /></label>
+          </div>
+          <div class="debt-entry">
+            <label>Debt 3 Balance ($):<input name="balance" type="number" placeholder="e.g. 1200" /></label>
+            <label>APR (%):<input name="apr" type="number" step="0.01" placeholder="e.g. 13.20" /></label>
+            <label>Min Payment ($):<input name="minPayment" type="number" placeholder="e.g. 30" /></label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="addSnowballDebt" class="btn">+ Add another debt</button>
+          <button type="submit" class="btn">Calculate Snowball</button>
+        </div>
+      </form>
+
+      <div id="snowballResults" class="results"></div>
+
+      <canvas id="snowballChart" width="600" height="300"
+              style="width:100%;max-width:600px;margin:2rem auto 0;"></canvas>
+    </section>
+    <!-- Educational Content -->
+<section class="educational-content">
+  <h2>What Is the Debt Snowball Method?</h2>
+  <p>
+    The debt snowball method is a proven, motivating way to pay off multiple debts by focusing on the smallest balances first. By paying off one debt quickly, you gain momentum—like a snowball rolling downhill—and build confidence as you go.
+  </p>
+  <p>
+    Here’s how it works: You make minimum payments on all debts except the one with the smallest balance. Put any extra money toward that smallest debt until it’s gone. Then, roll the amount you were paying into the next smallest, and so on.
+  </p>
+  <h3>Example:</h3>
+  <ul>
+    <li>Debt 1: $500 @ 18% APR – minimum $25/month</li>
+    <li>Debt 2: $2,000 @ 22% APR – minimum $50/month</li>
+    <li>Debt 3: $4,000 @ 16% APR – minimum $100/month</li>
+  </ul>
+  <p>
+    Using the snowball method, you’d tackle Debt 1 first with as much extra as you can afford. Once paid off, you’d apply that amount to Debt 2 while still paying Debt 3’s minimum, and so on.
+  </p>
+  <h3>Tip:</h3>
+  <p>
+    In our calculator, the “Min Payment ($)” field is also where you can enter your intended monthly payment. If you’re able to pay more than the minimum, just enter that higher number! You’ll see faster payoff and lower interest in your results.
+  </p>
+</section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2025 ClearCalc.io — <a href="../index.html">Home</a></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="../js/calculator.js"></script>
+</body>
+</html>
