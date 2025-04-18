@@ -13,7 +13,7 @@ pinned_version = "6"
   [plugins.inputs]
 
 [build]
-publish = "C:\\Users\\jdfly\\OneDrive\\clearcalc"
+publish = "."
 publishOrigin = "ui"
 
   [build.environment]
