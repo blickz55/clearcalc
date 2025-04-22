@@ -371,3 +371,7 @@ button:hover {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
 }
+.calculator + .educational-content {
+  margin-top: 0;
+  padding-top: 0;
+}
