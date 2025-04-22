@@ -50,15 +50,15 @@
       <form id="payoffForm">
         <div class="field">
           <label for="balance">Current Balance ($):</label>
-          <input type="number" id="balance" name="balance" placeholder="e.g. 5000" required />
+          <input type="number" id="balance" name="balance" inputmode="decimal" pattern="[0-9]*" placeholder="e.g. 5000" required />
         </div>
         <div class="field">
           <label for="apr">Annual Interest Rate (%):</label>
-          <input type="number" step="0.01" id="apr" name="apr" placeholder="e.g. 18.99" required />
+          <input type="number" step="0.01" id="apr" name="apr" inputmode="decimal" pattern="[0-9]*" placeholder="e.g. 18.99" required />
         </div>
         <div class="field">
           <label for="payment">Monthly Payment ($):</label>
-          <input type="number" id="payment" name="payment" placeholder="e.g. 200" required />
+          <input type="number" id="payment" name="payment" inputmode="decimal" pattern="[0-9]*" placeholder="e.g. 200" required />
         </div>
         <div class="actions">
           <button type="submit" class="btn">Calculate Payoff</button>
