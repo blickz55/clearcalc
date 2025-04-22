@@ -361,9 +361,13 @@ button:hover {
 }
 .educational-content h2,
 .educational-content h3 {
-  margin-top: 1.5rem;
+  margin-top: 0.75rem;
 }
 .educational-content ul {
   margin: 0.75rem 0 1rem 1.25rem;
   list-style: disc;
+}
+.educational-content p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
