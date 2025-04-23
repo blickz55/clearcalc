@@ -244,9 +244,11 @@ button:hover {
   border: 1px solid #ccc;                          /* soft border */
   padding: 0.75rem 1rem;                           /* generous padding */
   border-radius: var(--border-radius);             /* consistent rounding */
+  font-size: 16px;  /* Prevent mobile zoom */
   transition: border-color 0.2s ease,
               box-shadow    0.2s ease,
               background   0.2s ease;
+              
 }
 
 /* subtle “lift” on hover */
