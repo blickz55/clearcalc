@@ -72,11 +72,11 @@
 
         <div class="sticky-cta">
         <div class="actions">
-          <button type="button" id="addSnowballDebt" class="btn">+ Add another debt</button>
-          <button type="submit" class="btn">Calculate Snowball</button>
+          <button type="button" id="addSnowballDebt" class="btn" aria-label="Add another debt entry">+ Add another debt</button>
+          <button type="submit" class="btn" id="calculateSnowballBtn" aria-label="Calculate debt snowball payoff">Calculate Snowball</button>
         </div></div>
       </form>
-      <button class="btn print-btn" onclick="window.print()">Print This Page</button>
+      <button class="btn print-btn" onclick="window.print()" aria-label="Print this page">Print This Page</button>
 
       <div id="snowballResults" class="results"></div>
 

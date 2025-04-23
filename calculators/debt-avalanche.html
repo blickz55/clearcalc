@@ -72,12 +72,12 @@
         </div>
         <div class="sticky-cta">
         <div class="actions">
-          <button type="button" id="addAvalancheDebt" class="btn">+ Add another debt</button>
-          <button type="submit" class="btn">Calculate Avalanche</button>
+          <button type="button" id="addAvalancheDebt" class="btn" aria-label="Add another debt entry">+ Add another debt</button>
+          <button type="submit" class="btn" id="calculateAvalancheBtn" aria-label="Calculate debit avalanche payoff">Calculate Avalanche</button>
         </div>
         </div>
       </form>
-      <button class="btn print-btn" onclick="window.print()">Print This Page</button>
+      <button class="btn print-btn" onclick="window.print()" aria-label="Print this page">Print This Page</button>
 
       <div id="avalancheResults" class="results"></div>
 
