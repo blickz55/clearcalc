@@ -58,6 +58,51 @@ document.addEventListener('DOMContentLoaded', () => {
       // compute totals
       const { months, totalInterest } = creditCardPayoff(balance, apr, payment);
       const totalPaid = months * payment;
+// Render payoff chart
+if (payoffChart) {
+  payoffChart.destroy(); // Destroy existing chart if it exists
+}
+payoffChart = new Chart(payoffCanvas, {
+  type: 'line',
+  data: {
+    labels: schedule.map((_, i) => `Month ${i + 1}`),
+    datasets: [{
+      label: 'Balance Remaining',
+      data: schedule,
+      borderColor: '#007bff',
+      fill: false,
+      tension: 0.3
+    }]
+  },
+  options: {
+    responsive: true,
+    animation: {
+      duration: 800,
+      easing: 'easeOutQuart'
+    },
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Month'
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Balance ($)'
+        }
+      }
+    }
+  }
+});
+// ✅ Trigger the animation after chart is drawn
+document.querySelector('.chart-wrapper').classList.add('active');
 
       payoffResults.innerHTML = `
         <p>
@@ -278,6 +323,8 @@ if (bad) {
         }
         snowballCanvas.classList.add('active');
       }
+      document.querySelector("#snowballChart").closest(".chart-wrapper").classList.add("active");
+
     });
   }
 
@@ -410,6 +457,8 @@ if (avalancheForm) {
       }
       avalancheCanvas.classList.add('active');
     }
+    document.querySelector("#avalancheChart").closest(".chart-wrapper").classList.add("active");
+
   });
 }
 });

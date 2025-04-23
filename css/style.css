@@ -470,3 +470,12 @@ button:hover {
     font-size: 1.1rem;
   }
 }
+.chart-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1.2s ease;
+}
+
+.chart-wrapper.active {
+  max-height: 800px; /* or large enough to fit the full chart */
+}
