@@ -60,22 +60,42 @@ document.addEventListener('DOMContentLoaded', () => {
       const totalPaid = months * payment;
 // Render payoff chart
 if (payoffChart) {
-  payoffChart.destroy(); // Destroy existing chart if it exists
+  const labels = schedule.map((_, i) => `Mo ${i + 1}`);
+  payoffChart.data.labels = labels;
+  payoffChart.data.datasets[0].data = schedule;
+  
+  // ✅ Add this to match interaction behavior
+  payoffChart.options.interaction = {
+    mode: 'nearest',
+    intersect: false
+  };
+
+  payoffChart.update();
 }
 payoffChart = new Chart(payoffCanvas, {
   type: 'line',
   data: {
     labels: schedule.map((_, i) => `Month ${i + 1}`),
     datasets: [{
-      label: 'Balance Remaining',
-      data: schedule,
-      borderColor: '#007bff',
-      fill: false,
-      tension: 0.3
+      label: 'Balance',
+      data: schedule.map(row => row.balance),
+      fill: true,
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      tension: 0.1,
+      pointRadius: 4,         // Ensures visible dots
+      pointHoverRadius: 6     // Slightly larger on hover
     }]
+    
+    
   },
   options: {
     responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: 'nearest',
+      intersect: false
+    },
     animation: {
       duration: 800,
       easing: 'easeOutQuart'
@@ -83,7 +103,13 @@ payoffChart = new Chart(payoffCanvas, {
     plugins: {
       legend: {
         display: false
-      }
+      },
+      tooltip: {
+        callbacks: {
+          title: ctx => `Month ${ctx[0].dataIndex + 1}`,
+          label: ctx => formatCurrency(ctx.parsed.y)
+        }
+      }      
     },
     scales: {
       x: {
@@ -100,6 +126,7 @@ payoffChart = new Chart(payoffCanvas, {
       }
     }
   }
+  
 });
 // ✅ Trigger the animation after chart is drawn
 document.querySelector('.chart-wrapper').classList.add('active');
@@ -130,13 +157,18 @@ document.querySelector('.chart-wrapper').classList.add('active');
                 tension: 0.3,
                 backgroundColor: 'rgba(0,122,204,0.1)',
                 borderColor: 'rgba(0,122,204,1)',
-                pointRadius: 0
+                pointRadius: 4,
+                pointHoverRadius: 6,
               }]
             },
             options: {
               // keep the canvas at the size you set in HTML/CSS:
               responsive: false,
               maintainAspectRatio: false,
+              interaction: {
+                mode: 'nearest',
+                intersect: false
+              },
               scales: {
                 x: {
                   display: true,
@@ -149,6 +181,7 @@ document.querySelector('.chart-wrapper').classList.add('active');
               },
               plugins: {
                 tooltip: {
+                  title: ctx => ctx[0].label,
                   callbacks: { label: ctx => formatCurrency(ctx.parsed.y) }
                 },
                 legend: { display: false }
@@ -284,7 +317,8 @@ if (bad) {
           snowballChart.data.labels = labels;
           snowballChart.data.datasets[0].data = schedule;
           snowballChart.update();
-        } else {
+        } else {const labels = schedule.map((_, i) => `Month ${i + 1}`);
+
           snowballChart = new Chart(snowballCanvas.getContext('2d'), {
             type: 'line',
             data: {
@@ -296,29 +330,59 @@ if (bad) {
                 tension: 0.3,
                 backgroundColor: 'rgba(0,122,204,0.1)',
                 borderColor: 'rgba(0,122,204,1)',
-                pointRadius: 0
+                pointRadius: 4,
+                pointHoverRadius: 6,
+              
               }]
             },
             options: {
               responsive: false,
               maintainAspectRatio: false,
+              interaction: {
+                mode: 'nearest',
+                intersect: false
+              },
+              animation: {
+                duration: 800,
+                easing: 'easeOutQuart'
+              },
               scales: {
                 x: {
                   display: true,
-                  title: { display: true, text: 'Month' },
-                  ticks: { maxTicksLimit: labels.length }
+                  title: {
+                    display: true,
+                    text: 'Month'
+                  },
+                  ticks: {
+                    maxTicksLimit: labels.length
+                  }
                 },
                 y: {
-                  ticks: { callback: v => formatCurrency(v) }
+                  title: {
+                    display: true,
+                    text: 'Balance ($)'
+                  },
+                  ticks: {
+                    callback: v => formatCurrency(v)
+                  }
                 }
               },
               plugins: {
                 tooltip: {
-                  callbacks: { label: ctx => formatCurrency(ctx.parsed.y) }
+                  callbacks: {
+                    title: ctx => {
+                      console.log('Tooltip label:', ctx[0].label);
+                      return ctx[0].label;
+                    },
+                    label: ctx => formatCurrency(ctx.parsed.y)
+                  }
                 },
                 legend: { display: false }
               }
+              
+              
             }
+            
           });
         }
         snowballCanvas.classList.add('active');
@@ -429,7 +493,8 @@ if (avalancheForm) {
         avalancheChart.data.labels = labels;
         avalancheChart.data.datasets[0].data = schedule;
         avalancheChart.update();
-      } else {
+      } else {const labels = schedule.map((_, i) => `Month ${i + 1}`);
+
         avalancheChart = new Chart(avalancheCanvas.getContext('2d'), {
           type:'line',
           data:{ labels, datasets:[{
@@ -439,19 +504,55 @@ if (avalancheForm) {
             tension:0.3,
             backgroundColor:'rgba(0,122,204,0.1)',
             borderColor:'rgba(0,122,204,1)',
-            pointRadius:0
+            pointRadius:4,
+            pointHoverRadius: 6,
           }]},
-          options:{
-            responsive:false,
-            maintainAspectRatio:false,
-            scales:{
-              x:{ display:true, title:{display:true,text:'Month'}, ticks:{maxTicksLimit:labels.length} },
-              y:{ ticks:{callback:v=>formatCurrency(v)} }
+          options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            interaction: {
+              mode: 'nearest',
+              intersect: false
             },
-            plugins:{
-              tooltip:{ callbacks:{ label:ctx=>formatCurrency(ctx.parsed.y) } },
-              legend:{ display:false }
+            animation: {
+              duration: 800,
+              easing: 'easeOutQuart'
+            },
+            scales: {
+              x: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Month'
+                },
+                ticks: {
+                  maxTicksLimit: labels.length
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Balance ($)'
+                },
+                ticks: {
+                  callback: v => formatCurrency(v)
+                }
+              }
+            },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  title: ctx => {
+                    console.log('Tooltip label:', ctx[0].label);
+                    return ctx[0].label;
+                  },
+                  label: ctx => formatCurrency(ctx.parsed.y)
+                }
+              },
+              legend: { display: false }
             }
+            
+            
           }
         });
       }
