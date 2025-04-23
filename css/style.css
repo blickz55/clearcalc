@@ -377,3 +377,61 @@ button:hover {
   margin-top: 0;
   padding-top: 0;
 }
+@media print {
+  /* Hide everything except main content */
+  header, nav, footer, .actions, canvas, .hero, .educational-content {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+
+  main {
+    padding: 0;
+    margin: 0;
+  }
+
+  section.calculator {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .debt-entry input {
+    border: none;
+    background: none;
+    font-size: 12pt;
+    padding: 0;
+  }
+
+  .results {
+    border: none;
+    box-shadow: none;
+    padding: 0.5rem 0;
+    font-size: 12pt;
+  }
+
+  .results::before {
+    display: none;
+  }
+
+  /* Prevent page break inside result block */
+  .results,
+  .debt-entry {
+    page-break-inside: avoid;
+  }
+}
+.print-btn {
+  margin-top: 1rem;
+  background: #444;
+}
+
+@media print {
+  .print-btn {
+    display: none;
+  }
+}
