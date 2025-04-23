@@ -435,3 +435,38 @@ button:hover {
     display: none;
   }
 }
+@media (max-width: 480px) {
+  .input-group input {
+    margin-bottom: 0.75rem;
+  }
+
+  section.calculator,
+  section.educational-content {
+    padding-bottom: 1.5rem;
+  }
+
+  .results,
+  button,
+  .btn {
+    margin-bottom: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .sticky-cta {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    padding: 0.75rem;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+
+  .sticky-cta .actions {
+    margin: 0;
+  }
+
+  .sticky-cta .btn {
+    width: 100%;
+    font-size: 1.1rem;
+  }
+}
