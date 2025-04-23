@@ -33,6 +33,9 @@ header {
   text-align: center;
   padding: var(--spacing) 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  max-width: var(--max-content-width); /* ADD THIS */
+  margin: 0 auto;                      /* AND THIS */
+
 }
 header h1 {
   font-size: 2rem;
@@ -93,7 +96,7 @@ header nav {
 /* ─────────────────────────────────────── Button Utility ── */
 .btn,
 a.cta {
-  display: inline-block;
+  display: flex;
   background: var(--primary-color);
   color: #fff;
   text-decoration: none;
@@ -101,6 +104,11 @@ a.cta {
   border-radius: var(--border-radius);
   transition: background 0.2s ease;
   font-weight: 500;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space:normal;
+  min-height: 3.25rem;
 }
 .btn:hover,
 a.cta:hover {
@@ -192,6 +200,26 @@ button:hover {
   .debt-entry {
     flex-direction: column;
     align-items: stretch;
+  }
+  .hero-image img {
+    max-width: 90%;
+    margin: 0 auto 1rem;
+  }
+  .cta-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .cta-list li {
+    width: 100%;
+  }
+
+  .cta-list .btn {
+    width: 100%;
+    text-align: center;
+    white-space: normal;         /* ADD THIS */
+    word-break: break-word;      /* ADD THIS */
   }
 }
 
@@ -436,8 +464,23 @@ button:hover {
   }
 }
 @media (max-width: 480px) {
+  .intro-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .intro-buttons button, 
+  .intro-buttons a {
+    width: 100%;
+    white-space: normal;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
   .input-group input {
     margin-bottom: 0.75rem;
+  .header {
+    padding: 1rem; /* or adjust until it matches the rest of the layout */
+  }
   }
 
   section.calculator,
@@ -478,4 +521,112 @@ button:hover {
 
 .chart-wrapper.active {
   max-height: 800px; /* or large enough to fit the full chart */
+}
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  .hero {
+    flex-direction: column;
+    padding: 1rem 0;
+  }
+
+  .hero-text,
+  .hero-image {
+    width: 100%;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .calculator,
+  .educational-content {
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .debt-entry label {
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .sticky-cta {
+    padding: 1rem;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  button.btn,
+  .print-btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+/* ───────── Mobile Spacing & Breathing Room Improvements ───────── */
+@media (max-width: 600px) {
+  body,
+  main,
+  header,
+  footer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  section {
+    margin-bottom: 2.5rem;
+  }
+
+  .calculator,
+  .educational-content {
+    padding: 1.25rem;
+    border-radius: var(--border-radius);
+  }
+
+  .hero,
+  .featured {
+    padding: 1.25rem;
+    border-radius: var(--border-radius);
+  }
+
+  .hero-text h2,
+  .hero-text p {
+    text-align: center;
+  }
+
+  canvas {
+    margin-top: 1.5rem;
+  }
+  .field label,
+  .debt-entry label {
+    margin-bottom: 0.5rem; /* slightly more breathing room */
+  }
+
+  .field,
+  .debt-entry {
+    margin-bottom: 1rem; /* add bottom spacing between input groups */
+  }
+}
+html {
+  scroll-padding-top: 4rem; /* helps anchor links land nicely under fixed headers */
+}
+@media (max-width: 400px) {
+  body,
+  main,
+  header,
+  footer {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
